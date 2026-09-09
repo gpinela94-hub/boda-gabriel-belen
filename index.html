@@ -211,15 +211,16 @@
 
   .foto-espacio{
     aspect-ratio: 4/5;
-    border: 2px dashed var(--madera);
     border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--madera);
-    font-size: 0.8rem;
-    padding: 10px;
+    overflow: hidden;
     background: var(--papel-suave);
+  }
+
+  .foto-espacio img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .grid-fotos .foto-espacio:first-child{
@@ -340,13 +341,12 @@
   <section class="galeria">
     <div class="contenedor">
       <h2>Nuestros momentos</h2>
-      <p class="sub">Reemplaza estos espacios con sus fotos</p>
       <div class="grid-fotos">
-        <div class="foto-espacio">Foto principal de la pareja</div>
-        <div class="foto-espacio">Foto 2</div>
-        <div class="foto-espacio">Foto 3</div>
-        <div class="foto-espacio">Foto 4</div>
-        <div class="foto-espacio">Foto 5</div>
+        <div class="foto-espacio"><img src="fotos/principal.jpg" alt="Gabriel y Belén" loading="lazy"></div>
+        <div class="foto-espacio"><img src="fotos/foto-2.jpg" alt="Gabriel y Belén" loading="lazy"></div>
+        <div class="foto-espacio"><img src="fotos/foto-3.jpg" alt="Gabriel y Belén" loading="lazy"></div>
+        <div class="foto-espacio"><img src="fotos/foto-4.jpg" alt="Gabriel y Belén" loading="lazy"></div>
+        <div class="foto-espacio"><img src="fotos/foto-5.jpg" alt="Gabriel y Belén" loading="lazy"></div>
       </div>
     </div>
   </section>
