@@ -91,17 +91,76 @@
     margin: 6px 0;
   }
 
-  .hero-fecha{
-    margin-top: 28px;
-    font-size: 1.1rem;
-    letter-spacing: 0.03em;
-    color: var(--papel-suave);
+  .hero-adorno{
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
 
-  .hero-lugar{
-    margin-top: 4px;
-    font-size: 0.95rem;
-    color: var(--salvia);
+  .hero-adorno .linea{
+    width: 44px;
+    height: 1px;
+    background: var(--dorado);
+    opacity: 0.7;
+  }
+
+  .hero-adorno .flor{
+    width: 22px;
+    height: 22px;
+    color: var(--dorado);
+  }
+
+  /* ---------- BOTÓN DE MÚSICA ---------- */
+  .boton-musica{
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    z-index: 999;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1.5px solid var(--dorado);
+    background: rgba(29,43,34,0.92);
+    color: var(--papel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+    transition: transform 0.2s ease;
+  }
+
+  .boton-musica::before{
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px dashed var(--dorado);
+    opacity: 0.55;
+    animation: girar-lento 14s linear infinite;
+  }
+
+  .boton-musica:hover{ transform: scale(1.08); }
+
+  .boton-musica .icono-nota{
+    width: 22px;
+    height: 22px;
+    position: relative;
+  }
+
+  .boton-musica.reproduciendo .icono-nota{
+    animation: girar 3.2s linear infinite;
+  }
+
+  @keyframes girar{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+  }
+
+  @keyframes girar-lento{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
   }
 
   /* ---------- CUENTA REGRESIVA ---------- */
@@ -270,6 +329,8 @@
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior: auto; }
     .boton-wa{ transition: none; }
+    .boton-musica::before,
+    .boton-musica.reproduciendo .icono-nota{ animation: none; }
   }
 </style>
 </head>
@@ -288,8 +349,15 @@
 
     <p class="hero-eyebrow">Nos casamos</p>
     <h1>Gabriel<span class="y">&amp;</span>Belén</h1>
-    <p class="hero-fecha">17 de diciembre, 4:00 p.m.</p>
-    <p class="hero-lugar">Quevedo, Ecuador</p>
+    <div class="hero-adorno">
+      <span class="linea"></span>
+      <svg class="flor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+        <path d="M12 3c-2.2 2.2-3.6 4.4-3.6 6.6A3.6 3.6 0 0012 13.2a3.6 3.6 0 003.6-3.6C15.6 7.4 14.2 5.2 12 3z"/>
+        <path d="M12 13.2V21"/>
+        <path d="M12 17c-1.8 0-3.2-.9-4-2M12 17c1.8 0 3.2-.9 4-2"/>
+      </svg>
+      <span class="linea"></span>
+    </div>
   </section>
 
   <!-- CUENTA REGRESIVA -->
@@ -363,6 +431,18 @@
 
   <footer>Con mucho amor, Gabriel &amp; Belén</footer>
 
+  <!-- MÚSICA DE FONDO -->
+  <button id="musicToggle" class="boton-musica" aria-label="Reproducir música" aria-pressed="false">
+    <svg class="icono-nota" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+    </svg>
+  </button>
+  <iframe id="audioBoda" title="Música de fondo" allow="autoplay; encrypted-media"
+    style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;border:0;opacity:0;pointer-events:none;"
+    src="https://www.youtube.com/embed/cKJBe0sfLN8?enablejsapi=1&controls=0&loop=1&playlist=cKJBe0sfLN8&playsinline=1"></iframe>
+
 <script>
   // Cambia esta fecha si algo se mueve
   const fechaBoda = new Date("2026-12-17T16:00:00-05:00").getTime();
@@ -389,6 +469,23 @@
 
   actualizarReloj();
   setInterval(actualizarReloj, 1000);
+
+  // Botón de música de fondo
+  const musicBtn = document.getElementById("musicToggle");
+  const audioFrame = document.getElementById("audioBoda");
+  let sonando = false;
+
+  function enviarComando(func){
+    audioFrame.contentWindow.postMessage(JSON.stringify({ event: "command", func, args: [] }), "*");
+  }
+
+  musicBtn.addEventListener("click", () => {
+    sonando = !sonando;
+    enviarComando(sonando ? "playVideo" : "pauseVideo");
+    musicBtn.classList.toggle("reproduciendo", sonando);
+    musicBtn.setAttribute("aria-pressed", String(sonando));
+    musicBtn.setAttribute("aria-label", sonando ? "Pausar música" : "Reproducir música");
+  });
 </script>
 
 </body>
