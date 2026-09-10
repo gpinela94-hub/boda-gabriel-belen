@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Gabriel &amp; Belén · 17 de diciembre de 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fondo: #F7EDE6;
+    --fondo-suave: #F0E2D6;
+    --marino: #263149;
+    --marino-suave: #3C4A68;
+    --oliva: #74794F;
+    --oliva-suave: #A9AE84;
+    --dorado: #C6A567;
+    --rosa: #D9A9A0;
+    --tinta: #332E2A;
+    --blanco: #FFFEFB;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--fondo);
+    color:var(--tinta);
+    font-family:'Jost', sans-serif;
+    font-weight:300;
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    color:var(--marino);
+  }
+
+  .contenedor{
+    max-width:560px;
+    margin:0 auto;
+    padding:0 26px;
+    position:relative;
+  }
+
+  section{ position:relative; padding:88px 0; }
+
+  .eyebrow{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.05rem;
+    letter-spacing:.04em;
+    color:var(--oliva);
+    text-align:center;
+    margin-bottom:10px;
+  }
+
+  .titulo-seccion{
+    font-size:2rem;
+    text-align:center;
+    margin-bottom:6px;
+  }
+
+  .divisor{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    margin:22px auto 42px;
+  }
+  .divisor .linea{ width:46px; height:1px; background:var(--dorado); opacity:.8; }
+  .divisor svg{ width:18px; height:18px; color:var(--dorado); }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .8s ease, transform .8s ease;
+  }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
+
+  /* ---------- Ornamento floral (SVG, sin imágenes) ---------- */
+  .floral{
+    position:absolute;
+    width:150px;
+    height:150px;
+    pointer-events:none;
+    opacity:.9;
+  }
+  .floral.tl{ top:-10px; left:-16px; }
+  .floral.br{ bottom:-10px; right:-16px; transform:rotate(180deg); }
+  .floral.sm{ width:90px; height:90px; opacity:.6; }
+
+  /* ---------- HERO / PORTADA ---------- */
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:70px 30px;
+    overflow:hidden;
+  }
+
+  .hero-marco{
+    position:relative;
+    width:100%;
+    max-width:420px;
+    padding:52px 18px;
+  }
+
+  .hero .eyebrow{ margin-bottom:22px; }
+
+  .hero h1{
+    font-size:clamp(2.4rem, 10vw, 3.4rem);
+    line-height:1.12;
+  }
+
+  .hero .amp{
+    display:block;
+    font-style:italic;
+    font-weight:400;
+    font-size:.42em;
+    color:var(--dorado);
+    margin:8px 0;
+  }
+
+  .hero-fecha{
+    margin-top:30px;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.5rem;
+    letter-spacing:.03em;
+    color:var(--marino-suave);
+  }
+
+  .hero-hora{
+    margin-top:2px;
+    font-size:.95rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--oliva);
+  }
+
+  /* ---------- CUENTA REGRESIVA ---------- */
+  .cuenta{ text-align:center; }
+
+  .reloj{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-top:10px;
+  }
+
+  .bloque{
+    background:var(--marino);
+    color:var(--fondo);
+    border-radius:8px;
+    padding:16px 10px;
+    min-width:70px;
+  }
+
+  .bloque .numero{
+    font-family:'Cormorant Garamond', serif;
+    font-size:2rem;
+    font-weight:600;
+    display:block;
+  }
+
+  .bloque .unidad{
+    font-size:.62rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--oliva-suave);
+  }
+
+  /* ---------- FRASE ---------- */
+  .frase{
+    background:var(--marino);
+    color:var(--fondo);
+    text-align:center;
+  }
+  .frase blockquote{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.5rem;
+    line-height:1.5;
+    max-width:440px;
+    margin:0 auto;
+  }
+  .frase .divisor .linea{ background:var(--dorado); }
+
+  /* ---------- TARJETAS (Ceremonia / Dress code / etc.) ---------- */
+  .tarjeta{
+    background:var(--blanco);
+    border:1px solid rgba(38,49,73,.08);
+    border-radius:14px;
+    padding:28px 24px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(38,49,73,.06);
+  }
+  .tarjeta + .tarjeta{ margin-top:18px; }
+
+  .tarjeta .icono{
+    width:38px;
+    height:38px;
+    color:var(--oliva);
+    margin:0 auto 14px;
+  }
+
+  .tarjeta h3{ font-size:1.3rem; margin-bottom:6px; }
+  .tarjeta p{ color:var(--marino-suave); font-size:.95rem; }
+  .tarjeta p.direccion{ margin-top:2px; color:var(--tinta); font-weight:400; }
+
+  .boton{
+    display:inline-flex;
+    align-items:center;
+    gap:9px;
+    background:var(--marino);
+    color:var(--fondo);
+    text-decoration:none;
+    border:none;
+    font-family:'Jost', sans-serif;
+    font-weight:500;
+    letter-spacing:.02em;
+    padding:14px 28px;
+    border-radius:30px;
+    font-size:.95rem;
+    cursor:pointer;
+    transition:transform .2s ease, background .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .boton:hover{ transform:translateY(-2px); background:var(--marino-suave); }
+  .boton svg{ width:18px; height:18px; }
+  .boton.contorno{
+    background:transparent;
+    color:var(--marino);
+    border:1.4px solid var(--marino);
+  }
+  .boton.contorno:hover{ background:var(--marino); color:var(--fondo); }
+
+  .centrado{ text-align:center; margin-top:20px; }
+
+  /* ---------- DRESS CODE ---------- */
+  .dresscode-iconos{
+    display:flex;
+    justify-content:center;
+    gap:34px;
+    margin:26px 0 18px;
+  }
+  .dresscode-iconos .grupo{ text-align:center; }
+  .dresscode-iconos svg{ width:44px; height:44px; color:var(--marino); }
+  .dresscode-iconos span{ display:block; margin-top:8px; font-size:.8rem; color:var(--oliva); letter-spacing:.03em; }
+
+  .etiqueta-dresscode{
+    display:inline-block;
+    margin-top:4px;
+    padding:8px 22px;
+    border:1px solid var(--dorado);
+    border-radius:30px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.15rem;
+    color:var(--marino);
+  }
+
+  /* ---------- SECCIÓN OSCURA (No niños / Regalos) ---------- */
+  .seccion-oscura{
+    background:var(--fondo-suave);
+  }
+  .seccion-oscura .icono-centrado{
+    width:44px; height:44px; color:var(--rosa); margin:0 auto 18px;
+  }
+  .seccion-oscura p{ text-align:center; max-width:420px; margin:0 auto; color:var(--marino-suave); }
+
+  details.datos-transferencia{
+    margin-top:22px;
+    max-width:360px;
+    margin-left:auto;
+    margin-right:auto;
+    background:var(--blanco);
+    border-radius:10px;
+    padding:14px 18px;
+    border:1px solid rgba(38,49,73,.08);
+  }
+  details.datos-transferencia summary{
+    cursor:pointer;
+    font-weight:500;
+    color:var(--marino);
+    font-size:.9rem;
+  }
+  details.datos-transferencia .datos{
+    margin-top:12px;
+    font-size:.88rem;
+    color:var(--marino-suave);
+    line-height:1.8;
+  }
+
+  /* ---------- PASE RESERVADO ---------- */
+  .pase{
+    text-align:center;
+  }
+  .pase-tarjeta{
+    background:var(--marino);
+    color:var(--fondo);
+    border-radius:16px;
+    padding:34px 26px;
+    position:relative;
+    overflow:hidden;
+  }
+  .pase-tarjeta::before{
+    content:"";
+    position:absolute;
+    inset:8px;
+    border:1px solid rgba(198,165,103,.5);
+    border-radius:10px;
+    pointer-events:none;
+  }
+  .pase-eyebrow{
+    font-size:.72rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--dorado);
+    margin-bottom:14px;
+  }
+  .pase-nombre{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.7rem;
+    line-height:1.3;
+  }
+  .pase-personas{
+    margin-top:10px;
+    font-size:.92rem;
+    color:var(--oliva-suave);
+    letter-spacing:.03em;
+  }
+
+  /* ---------- RSVP ---------- */
+  .rsvp-form{ margin-top:12px; }
+
+  .campo{ margin-bottom:18px; text-align:left; }
+  .campo label{
+    display:block;
+    margin-bottom:7px;
+    font-size:.82rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--oliva);
+  }
+  .campo input,
+  .campo select,
+  .campo textarea{
+    width:100%;
+    font-family:'Jost', sans-serif;
+    font-size:1rem;
+    color:var(--tinta);
+    background:var(--blanco);
+    border:1px solid rgba(38,49,73,.18);
+    border-radius:8px;
+    padding:13px 14px;
+    outline:none;
+    transition:border-color .2s ease;
+  }
+  .campo input:focus,
+  .campo select:focus,
+  .campo textarea:focus{ border-color:var(--marino); }
+  .campo textarea{ resize:vertical; min-height:90px; }
+
+  .rsvp-form .boton{ width:100%; justify-content:center; margin-top:6px; }
+
+  .rsvp-exito{
+    display:none;
+    text-align:center;
+    padding:38px 20px;
+  }
+  .rsvp-exito.mostrar{
+    display:block;
+    animation:aparecer .6s ease forwards;
+  }
+  .rsvp-exito .check{
+    width:64px; height:64px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    background:var(--oliva);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation:pop .5s ease .1s both;
+  }
+  .rsvp-exito .check svg{ width:30px; height:30px; color:var(--blanco); }
+  .rsvp-exito h3{ font-size:1.5rem; margin-bottom:8px; }
+  .rsvp-exito p{ color:var(--marino-suave); }
+
+  @keyframes aparecer{
+    from{ opacity:0; transform:translateY(10px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes pop{
+    0%{ transform:scale(0); }
+    70%{ transform:scale(1.12); }
+    100%{ transform:scale(1); }
+  }
+
+  .rsvp-error{
+    display:none;
+    color:#9C4141;
+    font-size:.85rem;
+    margin-top:-6px;
+    margin-bottom:14px;
+  }
+  .rsvp-error.mostrar{ display:block; }
+
+  footer{
+    text-align:center;
+    padding:40px 24px 120px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    color:var(--oliva);
+    font-size:1.05rem;
+  }
+
+  /* ---------- BOTÓN DE MÚSICA (abajo a la izquierda) ---------- */
+  .boton-musica{
+    position:fixed;
+    bottom:22px;
+    left:22px;
+    z-index:999;
+    width:56px;
+    height:56px;
+    border-radius:50%;
+    border:1.5px solid var(--dorado);
+    background:var(--marino);
+    color:var(--fondo);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(38,49,73,.3);
+    transition:transform .2s ease;
+  }
+  .boton-musica::before{
+    content:"";
+    position:absolute;
+    inset:-6px;
+    border-radius:50%;
+    border:1px dashed var(--dorado);
+    opacity:.55;
+    animation:girar-lento 14s linear infinite;
+  }
+  .boton-musica:hover{ transform:scale(1.08); }
+  .boton-musica .icono-nota{ width:22px; height:22px; }
+  .boton-musica.reproduciendo .icono-nota{ animation:girar 3.2s linear infinite; }
+
+  @keyframes girar{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+  @keyframes girar-lento{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+
+  @media (prefers-reduced-motion: reduce){
+    .boton-musica::before, .boton-musica.reproduciendo .icono-nota{ animation:none; }
+  }
+
+  /* Reproductor de SoundCloud oculto (solo para control de audio) */
+  #scPlayer{
+    position:fixed;
+    top:-9999px;
+    left:-9999px;
+    width:1px;
+    height:1px;
+    border:0;
+    opacity:0;
+    pointer-events:none;
+  }
+</style>
+</head>
+<body>
+
+  <!-- ============ 1. PORTADA ============ -->
+  <section class="hero">
+    <svg class="floral tl" viewBox="0 0 200 200" aria-hidden="true"><use href="#ornamento-floral"/></svg>
+    <svg class="floral br" viewBox="0 0 200 200" aria-hidden="true"><use href="#ornamento-floral"/></svg>
+
+    <div class="hero-marco reveal">
+      <p class="eyebrow">Nos casamos</p>
+      <h1>Gabriel<span class="amp">&amp;</span>Belén</h1>
+      <p class="hero-fecha">17 de diciembre de 2026</p>
+      <p class="hero-hora">Jueves · 4:00 p.m. · Quevedo, Ecuador</p>
+    </div>
+  </section>
+
+  <!-- ============ 2. CUENTA REGRESIVA ============ -->
+  <section class="cuenta">
+    <div class="contenedor reveal">
+      <p class="eyebrow">Falta poco</p>
+      <h2 class="titulo-seccion">Nos vemos en...</h2>
+      <div class="reloj" id="reloj">
+        <div class="bloque"><span class="numero" id="dias">00</span><span class="unidad">Días</span></div>
+        <div class="bloque"><span class="numero" id="horas">00</span><span class="unidad">Horas</span></div>
+        <div class="bloque"><span class="numero" id="minutos">00</span><span class="unidad">Min</span></div>
+        <div class="bloque"><span class="numero" id="segundos">00</span><span class="unidad">Seg</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 3. FRASE ============ -->
+  <section class="frase">
+    <div class="contenedor reveal">
+      <blockquote>&ldquo;Dos almas, un mismo camino: hoy elegimos caminarlo juntos, para siempre.&rdquo;</blockquote>
+      <div class="divisor">
+        <span class="linea"></span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c-2.2 2.2-3.6 4.4-3.6 6.6A3.6 3.6 0 0012 13.2a3.6 3.6 0 003.6-3.6C15.6 7.4 14.2 5.2 12 3z"/></svg>
+        <span class="linea"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. CEREMONIA Y RECEPCIÓN ============ -->
+  <section class="ceremonia">
+    <div class="contenedor reveal">
+      <p class="eyebrow">Los detalles</p>
+      <h2 class="titulo-seccion">Ceremonia &amp; Recepción</h2>
+      <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="3"/></svg><span class="linea"></span></div>
+
+      <div class="tarjeta">
+        <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+        <h3>Jueves 17 de diciembre, 2026</h3>
+        <p>La celebración inicia a las <strong>4:00 p.m.</strong></p>
+      </div>
+
+      <div class="tarjeta">
+        <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <h3 id="salonNombre">[Nombre del salón]</h3>
+        <p class="direccion" id="salonDireccion">Quevedo, Los Ríos, Ecuador</p>
+        <div class="centrado">
+          <a class="boton" id="botonMaps" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            Cómo llegar
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. DRESS CODE ============ -->
+  <section class="dresscode">
+    <div class="contenedor reveal">
+      <p class="eyebrow">Vestimenta</p>
+      <h2 class="titulo-seccion">Dress Code</h2>
+      <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c-3 3-5 6-5 9a5 5 0 0010 0c0-3-2-6-5-9z"/></svg><span class="linea"></span></div>
+
+      <div class="dresscode-iconos">
+        <div class="grupo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 3L4 6v3h2v12h12V9h2V6l-4-3-2 2h-4L8 3z"/></svg>
+          <span>Caballeros</span>
+        </div>
+        <div class="grupo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 2h6l1 6-2 2 3 12H7l3-12-2-2 1-6z"/></svg>
+          <span>Damas</span>
+        </div>
+      </div>
+
+      <div class="centrado">
+        <span class="etiqueta-dresscode">Formal casual</span>
+      </div>
+      <p style="text-align:center; margin-top:16px; color:var(--marino-suave); font-size:.9rem;">Evitar blanco y tonos muy claros, reservados para la novia.</p>
+    </div>
+  </section>
+
+  <!-- ============ 6. NO NIÑOS ============ -->
+  <section class="seccion-oscura">
+    <div class="contenedor reveal">
+      <svg class="icono-centrado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/><path d="M4 4l16 16" stroke-width="1.3"/></svg>
+      <h2 class="titulo-seccion">Solo adultos</h2>
+      <p>Aunque adoramos a los más pequeños de la familia, hemos decidido que esta celebración sea un espacio solo para adultos. Agradecemos mucho su comprensión y esperamos que puedan disfrutar la noche con nosotros.</p>
+    </div>
+  </section>
+
+  <!-- ============ 7. MESA DE REGALOS ============ -->
+  <section class="regalos">
+    <div class="contenedor reveal">
+      <p class="eyebrow">Con cariño</p>
+      <h2 class="titulo-seccion">Mesa de regalos</h2>
+      <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M4 9V7a2 2 0 012-2h12a2 2 0 012 2v2M12 5V20M2 9h20"/></svg><span class="linea"></span></div>
+      <p style="text-align:center; color:var(--marino-suave);">Tu presencia es el regalo más importante para nosotros. Si deseas tener un detalle adicional, una lluvia de sobres será muy bien recibida.</p>
+
+      <details class="datos-transferencia">
+        <summary>Datos para transferencia (opcional)</summary>
+        <div class="datos">
+          Banco: [Nombre del banco]<br>
+          Cuenta: [Tipo y número de cuenta]<br>
+          A nombre de: [Nombre del titular]<br>
+          C.I./RUC: [Número]
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- ============ 8. PASE RESERVADO ============ -->
+  <section class="pase">
+    <div class="contenedor reveal">
+      <p class="eyebrow">Este pase es solo para ti</p>
+      <div class="pase-tarjeta">
+        <p class="pase-eyebrow">Pase reservado para</p>
+        <p class="pase-nombre" id="paseNombre">Familia</p>
+        <p class="pase-personas" id="pasePersonas">1 persona</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 9. CONFIRMA TU ASISTENCIA ============ -->
+  <section class="confirmacion">
+    <div class="contenedor reveal">
+      <p class="eyebrow">Antes del 1 de diciembre de 2026</p>
+      <h2 class="titulo-seccion">Confirma tu Asistencia</h2>
+      <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 13l4 4L19 7"/></svg><span class="linea"></span></div>
+
+      <form class="rsvp-form" id="rsvpForm" novalidate>
+        <div class="campo">
+          <label for="confirmacion">¿Cuántos asistirán?</label>
+          <select id="confirmacion" name="confirmacion" required>
+            <option value="" disabled selected>Selecciona una opción</option>
+          </select>
+        </div>
+
+        <div class="campo" id="campoAsistentes">
+          <label for="asistentes">Nombre de los asistentes</label>
+          <textarea id="asistentes" name="asistentes" placeholder="Ej: Juan Pérez, María Ruiz"></textarea>
+        </div>
+
+        <div class="campo" id="campoTelefono">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" placeholder="09XX XXX XXX">
+        </div>
+
+        <div class="campo">
+          <label for="mensaje">Mensaje para los novios</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Déjales un mensaje bonito (opcional)"></textarea>
+        </div>
+
+        <p class="rsvp-error" id="rsvpError">Por favor selecciona una opción antes de enviar.</p>
+
+        <button type="submit" class="boton" id="botonEnviar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          Enviar confirmación
+        </button>
+      </form>
+
+      <div class="rsvp-exito" id="rsvpExito">
+        <div class="check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>
+        </div>
+        <h3 id="rsvpExitoTitulo">¡Gracias por confirmar!</h3>
+        <p id="rsvpExitoTexto">Ya recibimos tu respuesta. ¡Nos vemos pronto!</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>Con todo nuestro amor, Gabriel &amp; Belén</footer>
+
+  <!-- ============ BOTÓN DE MÚSICA ============ -->
+  <button id="musicToggle" class="boton-musica" aria-label="Reproducir música" aria-pressed="false" type="button">
+    <svg class="icono-nota" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+    </svg>
+  </button>
+  <iframe id="scPlayer" title="Música de fondo" allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fuser-299168751%2Fyoung-and-beautiful-lana-del-1&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"></iframe>
+  <script src="https://w.soundcloud.com/player/api.js"></script>
+
+  <!-- Definición reutilizable del ornamento floral (SVG, sin imágenes externas) -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <filter id="blurAcuarela" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="7"/>
+      </filter>
+      <g id="ornamento-floral">
+        <g filter="url(#blurAcuarela)" opacity="0.55">
+          <ellipse cx="46" cy="40" rx="34" ry="26" fill="#D9A9A0"/>
+          <ellipse cx="80" cy="70" rx="28" ry="20" fill="#A9AE84"/>
+          <ellipse cx="30" cy="86" rx="20" ry="16" fill="#C6A567"/>
+        </g>
+        <g fill="none" stroke="#263149" stroke-width="1.3" stroke-linecap="round" opacity="0.75">
+          <path d="M6 6C30 10 46 26 50 52"/>
+          <path d="M14 14C28 20 34 32 34 46"/>
+          <path d="M6 30C18 30 26 38 28 50"/>
+        </g>
+        <g fill="#74794F" opacity="0.8">
+          <path d="M20 18c6 2 9 7 8 13-6-1-10-6-8-13z"/>
+          <path d="M34 34c6 1 10 6 9 12-6 0-11-5-9-12z"/>
+          <path d="M12 40c6 0 10 4 10 10-6 1-11-3-10-10z"/>
+        </g>
+        <g fill="#D9A9A0" opacity="0.9">
+          <circle cx="44" cy="18" r="4"/>
+          <circle cx="52" cy="26" r="3"/>
+          <circle cx="36" cy="12" r="2.4"/>
+        </g>
+      </g>
+    </defs>
+  </svg>
+
+<script>
+  /* ==========================================================
+     CONFIGURACIÓN — edita estos valores antes de publicar
+     ========================================================== */
+  const CONFIG = {
+    fechaBodaISO: "2026-12-17T16:00:00-05:00",
+    salon: "[Nombre del salón]",              // <-- EDITA: nombre del salón/lugar
+    direccion: "Quevedo, Los Ríos, Ecuador",  // <-- EDITA: dirección exacta para el mapa
+    appsScriptUrl: "https://script.google.com/macros/s/AKfycby1qbpn3uX5kXHY83Iqz8zt8JL5t-WApJWqZWeY1gznpJeaSngBYkmid7W-tY22t85E7g/exec"
+  };
+
+  document.getElementById("salonNombre").textContent = CONFIG.salon;
+  document.getElementById("salonDireccion").textContent = CONFIG.direccion;
+  document.getElementById("botonMaps").href =
+    "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(CONFIG.salon + " " + CONFIG.direccion);
+
+  /* ---------- Cuenta regresiva ---------- */
+  const fechaBoda = new Date(CONFIG.fechaBodaISO).getTime();
+
+  function actualizarReloj(){
+    const diferencia = fechaBoda - Date.now();
+    if (diferencia < 0){
+      document.getElementById("reloj").innerHTML =
+        "<p style='font-family:Cormorant Garamond,serif;font-style:italic;font-size:1.3rem;color:var(--marino);'>¡Hoy es el gran día!</p>";
+      return;
+    }
+    const dias = Math.floor(diferencia / 86400000);
+    const horas = Math.floor((diferencia % 86400000) / 3600000);
+    const minutos = Math.floor((diferencia % 3600000) / 60000);
+    const segundos = Math.floor((diferencia % 60000) / 1000);
+    document.getElementById("dias").textContent = String(dias).padStart(2, "0");
+    document.getElementById("horas").textContent = String(horas).padStart(2, "0");
+    document.getElementById("minutos").textContent = String(minutos).padStart(2, "0");
+    document.getElementById("segundos").textContent = String(segundos).padStart(2, "0");
+  }
+  actualizarReloj();
+  setInterval(actualizarReloj, 1000);
+
+  /* ---------- Animación al hacer scroll ---------- */
+  const observador = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+      if (entrada.isIntersecting){
+        entrada.target.classList.add("visible");
+        observador.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach(el => observador.observe(el));
+
+  /* ---------- Pase reservado personalizado (parámetros de la URL) ---------- */
+  const parametros = new URLSearchParams(window.location.search);
+  const invitado = parametros.get("invitado") ? decodeURIComponent(parametros.get("invitado")) : "Familia";
+  let pases = parseInt(parametros.get("pases"), 10);
+  if (!Number.isFinite(pases) || pases < 1) pases = 1;
+  if (pases > 10) pases = 10;
+
+  document.getElementById("paseNombre").textContent = invitado;
+  document.getElementById("pasePersonas").textContent =
+    pases === 1 ? "1 persona" : pases + " personas";
+
+  /* ---------- Select de confirmación según los pases asignados ---------- */
+  const selectConfirmacion = document.getElementById("confirmacion");
+  for (let i = 1; i <= pases; i++){
+    const opcion = document.createElement("option");
+    opcion.value = String(i);
+    opcion.textContent = i === 1 ? "1 Persona" : i + " Personas";
+    selectConfirmacion.appendChild(opcion);
+  }
+  const opcionNo = document.createElement("option");
+  opcionNo.value = "no";
+  opcionNo.textContent = "No podré asistir";
+  selectConfirmacion.appendChild(opcionNo);
+
+  selectConfirmacion.addEventListener("change", () => {
+    const noAsiste = selectConfirmacion.value === "no";
+    document.getElementById("campoAsistentes").style.display = noAsiste ? "none" : "block";
+  });
+
+  /* ---------- Envío del formulario a Google Sheets ---------- */
+  const form = document.getElementById("rsvpForm");
+  const errorMsg = document.getElementById("rsvpError");
+  const botonEnviar = document.getElementById("botonEnviar");
+
+  form.addEventListener("submit", function(evento){
+    evento.preventDefault();
+
+    if (!selectConfirmacion.value){
+      errorMsg.classList.add("mostrar");
+      selectConfirmacion.focus();
+      return;
+    }
+    errorMsg.classList.remove("mostrar");
+
+    const payload = {
+      invitado: invitado,
+      pasesAsignados: pases,
+      confirmacion: selectConfirmacion.value,
+      asistentes: document.getElementById("asistentes").value.trim(),
+      telefono: document.getElementById("telefono").value.trim(),
+      mensaje: document.getElementById("mensaje").value.trim(),
+      fecha: new Date().toISOString()
+    };
+
+    botonEnviar.disabled = true;
+    botonEnviar.textContent = "Enviando...";
+
+    fetch(CONFIG.appsScriptUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain" },
+      body: JSON.stringify(payload)
+    })
+    .then(() => mostrarExito(payload))
+    .catch(() => mostrarExito(payload)); // no-cors no permite leer la respuesta; asumimos envío ok
+  });
+
+  function mostrarExito(payload){
+    form.style.display = "none";
+    const exito = document.getElementById("rsvpExito");
+    if (payload.confirmacion === "no"){
+      document.getElementById("rsvpExitoTitulo").textContent = "Gracias por avisarnos";
+      document.getElementById("rsvpExitoTexto").textContent = "Lamentamos que no puedas acompañarnos, ¡te vamos a extrañar!";
+    }
+    exito.classList.add("mostrar");
+  }
+
+  /* ---------- Botón de música (SoundCloud Widget API) ---------- */
+  const musicBtn = document.getElementById("musicToggle");
+  let scWidget = null;
+  let sonando = false;
+
+  window.addEventListener("load", () => {
+    if (window.SC && window.SC.Widget){
+      scWidget = SC.Widget(document.getElementById("scPlayer"));
+      scWidget.bind(SC.Widget.Events.PLAY, () => {
+        sonando = true;
+        musicBtn.classList.add("reproduciendo");
+        musicBtn.setAttribute("aria-pressed", "true");
+        musicBtn.setAttribute("aria-label", "Pausar música");
+      });
+      scWidget.bind(SC.Widget.Events.PAUSE, () => {
+        sonando = false;
+        musicBtn.classList.remove("reproduciendo");
+        musicBtn.setAttribute("aria-pressed", "false");
+        musicBtn.setAttribute("aria-label", "Reproducir música");
+      });
+    }
+  });
+
+  musicBtn.addEventListener("click", () => {
+    if (!scWidget) return;
+    scWidget.toggle();
+  });
+</script>
+
+</body>
+</html>
