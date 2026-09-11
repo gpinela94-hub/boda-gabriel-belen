@@ -420,24 +420,41 @@
   }
   .boton-musica:hover{ transform:scale(1.08); }
   .boton-musica .icono-nota{ width:22px; height:22px; }
-  .boton-musica.reproduciendo .icono-nota{ animation:girar 3.2s linear infinite; }
 
-  @keyframes girar{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
   @keyframes girar-lento{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 
   @media (prefers-reduced-motion: reduce){
-    .boton-musica::before, .boton-musica.reproduciendo .icono-nota{ animation:none; }
+    .boton-musica::before{ animation:none; }
   }
 
-  /* Reproductor de audio oculto (solo para control de música) */
-  #audioBoda{
+  /* Tarjeta del reproductor (se abre al pulsar el botón de música) */
+  .reproductor-musica{
     position:fixed;
-    top:-9999px;
-    left:-9999px;
-    width:1px;
-    height:1px;
+    bottom:90px;
+    left:22px;
+    z-index:998;
+    width:280px;
+    max-width:calc(100vw - 44px);
+    border-radius:14px;
+    overflow:hidden;
+    background:var(--marino);
+    border:1.5px solid var(--dorado);
+    box-shadow:0 8px 24px rgba(62,74,56,.35);
     opacity:0;
+    transform:translateY(10px);
     pointer-events:none;
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .reproductor-musica.abierto{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+  .reproductor-musica iframe{
+    display:block;
+    width:100%;
+    height:80px;
+    border:0;
   }
 </style>
 </head>
@@ -595,16 +612,16 @@
   <footer>Con todo nuestro amor, Gabriel &amp; Belén</footer>
 
   <!-- ============ BOTÓN DE MÚSICA ============ -->
-  <button id="musicToggle" class="boton-musica" aria-label="Reproducir música" aria-pressed="false" type="button">
+  <div class="reproductor-musica" id="reproductorMusica">
+    <iframe src="https://drive.google.com/file/d/1VMfB8YVwiX8c5gM8zdHQdLiNRC04L9va/preview" title="Música de la boda" allow="autoplay" loading="lazy"></iframe>
+  </div>
+  <button id="musicToggle" class="boton-musica" aria-label="Mostrar reproductor de música" aria-expanded="false" type="button">
     <svg class="icono-nota" viewBox="0 0 24 24" fill="currentColor">
       <path d="M9 18V5l12-2v13"/>
       <circle cx="6" cy="18" r="3"/>
       <circle cx="18" cy="16" r="3"/>
     </svg>
   </button>
-  <audio id="audioBoda" loop preload="none">
-    <source src="https://drive.google.com/uc?export=download&id=1VMfB8YVwiX8c5gM8zdHQdLiNRC04L9va">
-  </audio>
 
   <!-- Definición reutilizable del ornamento floral (SVG, sin imágenes externas) -->
   <svg width="0" height="0" style="position:absolute">
@@ -764,27 +781,14 @@
     exito.classList.add("mostrar");
   }
 
-  /* ---------- Botón de música (audio propio) ---------- */
+  /* ---------- Botón de música (abre la tarjeta con el reproductor) ---------- */
   const musicBtn = document.getElementById("musicToggle");
-  const audioBoda = document.getElementById("audioBoda");
-
-  audioBoda.addEventListener("play", () => {
-    musicBtn.classList.add("reproduciendo");
-    musicBtn.setAttribute("aria-pressed", "true");
-    musicBtn.setAttribute("aria-label", "Pausar música");
-  });
-  audioBoda.addEventListener("pause", () => {
-    musicBtn.classList.remove("reproduciendo");
-    musicBtn.setAttribute("aria-pressed", "false");
-    musicBtn.setAttribute("aria-label", "Reproducir música");
-  });
+  const reproductor = document.getElementById("reproductorMusica");
 
   musicBtn.addEventListener("click", () => {
-    if (audioBoda.paused){
-      audioBoda.play().catch(() => {});
-    } else {
-      audioBoda.pause();
-    }
+    const abierto = reproductor.classList.toggle("abierto");
+    musicBtn.setAttribute("aria-expanded", abierto ? "true" : "false");
+    musicBtn.setAttribute("aria-label", abierto ? "Ocultar reproductor de música" : "Mostrar reproductor de música");
   });
 </script>
 
