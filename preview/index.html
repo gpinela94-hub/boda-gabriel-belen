@@ -24,6 +24,7 @@
   *{ box-sizing:border-box; margin:0; padding:0; }
 
   html{ scroll-behavior:smooth; }
+  html.sobre-bloqueado, html.sobre-bloqueado body{ overflow:hidden; height:100%; }
 
   body{
     background:var(--fondo);
@@ -87,6 +88,7 @@
   @media (prefers-reduced-motion: reduce){
     html{ scroll-behavior:auto; }
     .reveal{ opacity:1; transform:none; transition:none; }
+    .sobre, .sobre-solapa, .carta, .sello, .sobre-texto{ transition:none !important; }
   }
 
   /* ---------- Ornamento floral (SVG, sin imágenes) ---------- */
@@ -143,6 +145,118 @@
     color:var(--dorado);
     margin:8px 0;
   }
+
+  /* ---------- SOBRE DE APERTURA (portada) ---------- */
+  .sobre{
+    position:absolute;
+    inset:0;
+    z-index:5;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:24px;
+    background:var(--fondo);
+    transition:opacity .6s ease .1s, visibility .6s ease .1s;
+  }
+  .sobre.abierto{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+
+  .sobre-tarjeta{
+    position:relative;
+    width:min(74vw, 290px);
+    aspect-ratio:3 / 2;
+    perspective:1200px;
+  }
+
+  .sobre-cuerpo{
+    position:absolute;
+    inset:0;
+    border-radius:5px;
+    background:var(--fondo-suave);
+    box-shadow:0 18px 40px rgba(62,74,56,.2);
+    overflow:hidden;
+  }
+
+  .carta{
+    position:absolute;
+    left:9%;
+    right:9%;
+    top:-4%;
+    height:86%;
+    background:var(--blanco);
+    border-radius:2px 2px 0 0;
+    box-shadow:0 -3px 10px rgba(62,74,56,.12);
+    transform:translateY(28%);
+    transition:transform 1.1s cubic-bezier(.22,1,.36,1) .55s;
+  }
+  .sobre.abriendo .carta{ transform:translateY(-36%); }
+
+  .sobre-solapa{
+    position:absolute;
+    top:0; left:0; right:0;
+    height:62%;
+    background:var(--fondo-suave);
+    clip-path:polygon(0 0, 100% 0, 50% 100%);
+    transform-origin:top center;
+    transform:rotateX(0deg);
+    transition:transform .9s cubic-bezier(.45,0,.2,1);
+    filter:drop-shadow(0 3px 5px rgba(62,74,56,.18));
+    z-index:2;
+  }
+  .sobre.abriendo .sobre-solapa{ transform:rotateX(180deg); }
+
+  .sello{
+    position:absolute;
+    top:62%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:3;
+    width:60px;
+    height:60px;
+    border-radius:45% 55% 52% 48% / 48% 45% 55% 52%;
+    background:radial-gradient(circle at 32% 28%, var(--dorado) 0%, var(--dorado) 45%, #8a713f 100%);
+    border:none;
+    box-shadow:
+      0 6px 14px rgba(62,74,56,.35),
+      inset 0 2px 3px rgba(255,255,255,.35),
+      inset 0 -3px 5px rgba(0,0,0,.25);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:transform .3s ease, opacity .35s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .sello:hover{ transform:translate(-50%,-50%) scale(1.07); }
+  .sobre.roto .sello{
+    transform:translate(-50%,-50%) scale(.3) rotate(18deg);
+    opacity:0;
+    transition:transform .45s cubic-bezier(.34,1.56,.64,1), opacity .35s ease;
+  }
+
+  .sello-monograma{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--fondo);
+    letter-spacing:.02em;
+    text-shadow:0 1px 1px rgba(0,0,0,.25);
+  }
+  .sello-monograma i{ font-style:italic; opacity:.85; margin:0 1px; }
+
+  .sobre-texto{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:.95rem;
+    color:var(--marino-suave);
+    letter-spacing:.02em;
+    transition:opacity .4s ease;
+  }
+  .sobre.roto .sobre-texto{ opacity:0; }
 
   /* ---------- CUENTA REGRESIVA ---------- */
   .cuenta{ text-align:center; }
@@ -453,6 +567,19 @@
       <p class="hero-anuncio">Nos casamos</p>
       <h1>Gabriel<span class="amp">&amp;</span>Belén</h1>
     </div>
+
+    <div class="sobre" id="sobre">
+      <div class="sobre-tarjeta">
+        <div class="sobre-cuerpo">
+          <div class="carta"></div>
+        </div>
+        <div class="sobre-solapa"></div>
+        <button class="sello" id="selloBtn" type="button" aria-label="Abrir la invitación">
+          <span class="sello-monograma">G<i>&amp;</i>B</span>
+        </button>
+      </div>
+      <p class="sobre-texto">Toca el sello para abrir tu invitación</p>
+    </div>
   </section>
 
   <!-- ============ 2. CUENTA REGRESIVA ============ -->
@@ -639,6 +766,37 @@
   </svg>
 
 <script>
+  /* ---------- Sobre de apertura (portada) ---------- */
+  (function(){
+    const sobre = document.getElementById("sobre");
+    const sello = document.getElementById("selloBtn");
+    if (!sobre || !sello) return;
+
+    const prefiereMenosMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    document.documentElement.classList.add("sobre-bloqueado");
+
+    function abrirSobre(){
+      if (sobre.classList.contains("roto")) return;
+      sello.disabled = true;
+
+      if (prefiereMenosMovimiento){
+        sobre.classList.add("roto", "abriendo", "abierto");
+        document.documentElement.classList.remove("sobre-bloqueado");
+        return;
+      }
+
+      sobre.classList.add("roto");
+      setTimeout(() => sobre.classList.add("abriendo"), 250);
+      setTimeout(() => {
+        sobre.classList.add("abierto");
+        document.documentElement.classList.remove("sobre-bloqueado");
+      }, 1500);
+    }
+
+    sello.addEventListener("click", abrirSobre);
+  })();
+
   /* ==========================================================
      CONFIGURACIÓN — edita estos valores antes de publicar
      ========================================================== */
