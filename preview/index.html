@@ -420,41 +420,25 @@
   }
   .boton-musica:hover{ transform:scale(1.08); }
   .boton-musica .icono-nota{ width:22px; height:22px; }
+  .boton-musica.reproduciendo .icono-nota{ animation:girar 3.2s linear infinite; }
 
+  @keyframes girar{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
   @keyframes girar-lento{ from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
 
   @media (prefers-reduced-motion: reduce){
-    .boton-musica::before{ animation:none; }
+    .boton-musica::before, .boton-musica.reproduciendo .icono-nota{ animation:none; }
   }
 
-  /* Tarjeta del reproductor (se abre al pulsar el botón de música) */
-  .reproductor-musica{
+  /* Reproductor de SoundCloud oculto (solo para control de audio) */
+  #scPlayer{
     position:fixed;
-    bottom:90px;
-    left:22px;
-    z-index:998;
-    width:280px;
-    max-width:calc(100vw - 44px);
-    border-radius:14px;
-    overflow:hidden;
-    background:var(--marino);
-    border:1.5px solid var(--dorado);
-    box-shadow:0 8px 24px rgba(62,74,56,.35);
-    opacity:0;
-    transform:translateY(10px);
-    pointer-events:none;
-    transition:opacity .25s ease, transform .25s ease;
-  }
-  .reproductor-musica.abierto{
-    opacity:1;
-    transform:translateY(0);
-    pointer-events:auto;
-  }
-  .reproductor-musica iframe{
-    display:block;
-    width:100%;
-    height:80px;
+    top:-9999px;
+    left:-9999px;
+    width:1px;
+    height:1px;
     border:0;
+    opacity:0;
+    pointer-events:none;
   }
 </style>
 </head>
@@ -612,16 +596,16 @@
   <footer>Con todo nuestro amor, Gabriel &amp; Belén</footer>
 
   <!-- ============ BOTÓN DE MÚSICA ============ -->
-  <div class="reproductor-musica" id="reproductorMusica">
-    <iframe src="https://drive.google.com/file/d/1VMfB8YVwiX8c5gM8zdHQdLiNRC04L9va/preview" title="Música de la boda" allow="autoplay" loading="lazy"></iframe>
-  </div>
-  <button id="musicToggle" class="boton-musica" aria-label="Mostrar reproductor de música" aria-expanded="false" type="button">
+  <button id="musicToggle" class="boton-musica" aria-label="Reproducir música" aria-pressed="false" type="button">
     <svg class="icono-nota" viewBox="0 0 24 24" fill="currentColor">
       <path d="M9 18V5l12-2v13"/>
       <circle cx="6" cy="18" r="3"/>
       <circle cx="18" cy="16" r="3"/>
     </svg>
   </button>
+  <iframe id="scPlayer" title="Música de fondo" allow="autoplay"
+    src="https://w.soundcloud.com/player/?url=https%3A%2F%2Fsoundcloud.com%2Fgabriel-pinela-581588989%2Fyoung-and-beautiful-lana-del&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false&visual=false"></iframe>
+  <script src="https://w.soundcloud.com/player/api.js"></script>
 
   <!-- Definición reutilizable del ornamento floral (SVG, sin imágenes externas) -->
   <svg width="0" height="0" style="position:absolute">
@@ -781,14 +765,29 @@
     exito.classList.add("mostrar");
   }
 
-  /* ---------- Botón de música (abre la tarjeta con el reproductor) ---------- */
+  /* ---------- Botón de música (SoundCloud Widget API) ---------- */
   const musicBtn = document.getElementById("musicToggle");
-  const reproductor = document.getElementById("reproductorMusica");
+  let scWidget = null;
+
+  window.addEventListener("load", () => {
+    if (window.SC && window.SC.Widget){
+      scWidget = SC.Widget(document.getElementById("scPlayer"));
+      scWidget.bind(SC.Widget.Events.PLAY, () => {
+        musicBtn.classList.add("reproduciendo");
+        musicBtn.setAttribute("aria-pressed", "true");
+        musicBtn.setAttribute("aria-label", "Pausar música");
+      });
+      scWidget.bind(SC.Widget.Events.PAUSE, () => {
+        musicBtn.classList.remove("reproduciendo");
+        musicBtn.setAttribute("aria-pressed", "false");
+        musicBtn.setAttribute("aria-label", "Reproducir música");
+      });
+    }
+  });
 
   musicBtn.addEventListener("click", () => {
-    const abierto = reproductor.classList.toggle("abierto");
-    musicBtn.setAttribute("aria-expanded", abierto ? "true" : "false");
-    musicBtn.setAttribute("aria-label", abierto ? "Ocultar reproductor de música" : "Mostrar reproductor de música");
+    if (!scWidget) return;
+    scWidget.toggle();
   });
 </script>
 
