@@ -190,10 +190,14 @@
     background:var(--blanco);
     border-radius:2px 2px 0 0;
     box-shadow:0 -3px 10px rgba(62,74,56,.12);
-    transform:translateY(28%);
-    transition:transform 1.1s cubic-bezier(.22,1,.36,1) .55s;
+    opacity:0;
+    transform:translateY(46%);
+    transition:opacity .3s ease .5s, transform 1.1s cubic-bezier(.22,1,.36,1) .55s;
   }
-  .sobre.abriendo .carta{ transform:translateY(-36%); }
+  .sobre.abriendo .carta{
+    opacity:1;
+    transform:translateY(-36%);
+  }
 
   .sobre-solapa{
     position:absolute;
