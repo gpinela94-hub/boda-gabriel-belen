@@ -176,7 +176,8 @@
     position:absolute;
     inset:0;
     border-radius:5px;
-    background:var(--fondo-suave);
+    background:var(--blanco);
+    border:1px solid rgba(62,74,56,.12);
     box-shadow:0 18px 40px rgba(62,74,56,.2);
     overflow:hidden;
   }
@@ -203,12 +204,12 @@
     position:absolute;
     top:0; left:0; right:0;
     height:62%;
-    background:var(--fondo-suave);
+    background:linear-gradient(165deg, var(--fondo-suave), #d3d6c5);
     clip-path:polygon(0 0, 100% 0, 50% 100%);
     transform-origin:top center;
     transform:rotateX(0deg);
     transition:transform .9s cubic-bezier(.45,0,.2,1);
-    filter:drop-shadow(0 3px 5px rgba(62,74,56,.18));
+    filter:drop-shadow(0 4px 6px rgba(62,74,56,.3));
     z-index:2;
   }
   .sobre.abriendo .sobre-solapa{ transform:rotateX(180deg); }
