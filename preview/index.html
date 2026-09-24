@@ -559,173 +559,501 @@
     opacity:0;
     pointer-events:none;
   }
+
+  /* ==========================================================
+     LIBRO — cada sección es una página que se voltea
+     ========================================================== */
+  html, body{ height:100%; overflow:hidden; }
+  body{ background:#D6D9CB; }
+
+  .libro{
+    position:fixed;
+    inset:0;
+    perspective:3200px;
+    perspective-origin:50% 50%;
+    overflow:hidden;
+  }
+
+  .pagina{
+    position:absolute;
+    inset:0;
+    transform-style:preserve-3d;
+    transform-origin:left center;
+    visibility:hidden;
+    z-index:0;
+  }
+  .pagina.actual{ visibility:visible; z-index:2; }
+  .pagina.debajo{ visibility:visible; z-index:1; }
+
+  .cara, .dorso, .tono, .sombra{
+    position:absolute;
+    inset:0;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+  }
+  .cara{
+    overflow-y:auto;
+    overflow-x:hidden;
+    -webkit-overflow-scrolling:touch;
+    background:var(--fondo);
+    overscroll-behavior:contain;
+  }
+  .dorso{
+    transform:rotateY(180deg);
+    background:linear-gradient(to left, #d9dccd 0%, var(--fondo) 22%, #F3F3EE 100%);
+  }
+  /* brillo/sombra que recorre la hoja al voltearse */
+  .tono{
+    transform:translateZ(1px);
+    pointer-events:none;
+    opacity:0;
+    background:linear-gradient(to left, rgba(43,43,38,.38) 0%, rgba(43,43,38,.08) 45%, rgba(255,255,255,.12) 100%);
+  }
+  /* sombra que cae sobre la página de abajo */
+  .sombra{
+    transform:translateZ(1px);
+    pointer-events:none;
+    opacity:0;
+    background:linear-gradient(to right, rgba(43,43,38,.45) 0%, rgba(43,43,38,.15) 40%, rgba(43,43,38,0) 100%);
+  }
+
+  /* lomo del libro (borde izquierdo) */
+  .lomo{
+    position:fixed;
+    top:0; bottom:0; left:0;
+    width:22px;
+    z-index:5;
+    pointer-events:none;
+    background:linear-gradient(to right, rgba(43,43,38,.16), rgba(43,43,38,0));
+  }
+
+  /* contenido dentro de cada página */
+  .cara > section{
+    min-height:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:70px 0 130px;
+  }
+  .cara > section.hero{ padding:70px 30px; min-height:100%; align-items:center; }
+  .cara > section.confirmacion{ padding-bottom:30px; }
+  .cara footer{ padding:10px 24px 130px; }
+
+  /* En pantallas grandes el libro se ve como una hoja centrada */
+  @media (min-width:760px){
+    .libro{
+      left:50%;
+      right:auto;
+      width:520px;
+      top:24px;
+      bottom:24px;
+      transform:translateX(-50%);
+      overflow:visible;
+    }
+    .cara, .dorso{ border-radius:0 8px 8px 0; }
+    .pagina.actual .cara{ box-shadow:0 30px 70px rgba(43,43,38,.25); }
+    .lomo{ position:absolute; }
+  }
+
+  /* ---------- Navegación entre páginas ---------- */
+  .nav-libro{
+    position:fixed;
+    left:50%;
+    bottom:max(18px, env(safe-area-inset-bottom));
+    transform:translate(-50%, 0);
+    z-index:50;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:8px 8px 8px 8px;
+    background:rgba(251,250,246,.86);
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    border:1px solid rgba(166,138,85,.35);
+    border-radius:40px;
+    box-shadow:0 10px 28px rgba(62,74,56,.18);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  html.sobre-bloqueado .nav-libro{
+    opacity:0;
+    pointer-events:none;
+    transform:translate(-50%, 20px);
+  }
+
+  .nav-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    height:44px;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    font-family:'Jost', sans-serif;
+    font-size:.92rem;
+    font-weight:500;
+    letter-spacing:.02em;
+    -webkit-tap-highlight-color:transparent;
+    transition:transform .2s ease, background .2s ease, opacity .3s ease;
+  }
+  .nav-btn svg{ width:18px; height:18px; }
+  .nav-btn:disabled{ opacity:.3; cursor:default; }
+
+  .nav-btn.anterior{
+    width:44px;
+    background:transparent;
+    color:var(--marino);
+    border:1.3px solid rgba(62,74,56,.35);
+  }
+  .nav-btn.siguiente{
+    padding:0 22px 0 24px;
+    background:var(--marino);
+    color:var(--fondo);
+  }
+  .nav-btn.siguiente:not(:disabled):hover{ background:var(--marino-suave); transform:translateX(2px); }
+  .nav-btn.siguiente.pulso{ animation:pulso 1.8s ease-in-out infinite; }
+  @keyframes pulso{
+    0%,100%{ box-shadow:0 0 0 0 rgba(62,74,56,.35); }
+    50%{ box-shadow:0 0 0 9px rgba(62,74,56,0); }
+  }
+
+  .nav-contador{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.05rem;
+    color:var(--marino-suave);
+    min-width:42px;
+    text-align:center;
+  }
+
+  /* El botón de música pasa arriba a la derecha para no chocar con la navegación */
+  .boton-musica{
+    top:max(16px, env(safe-area-inset-top));
+    right:16px;
+    bottom:auto;
+    left:auto;
+    width:50px;
+    height:50px;
+  }
+
+  /* ---------- Página de fotos ---------- */
+  .album{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px 14px;
+    margin-top:4px;
+  }
+  .polaroid{
+    background:var(--blanco);
+    padding:8px 8px 10px;
+    border-radius:3px;
+    box-shadow:0 10px 24px rgba(62,74,56,.14);
+    cursor:zoom-in;
+    transition:transform .3s ease;
+    -webkit-tap-highlight-color:transparent;
+    border:none;
+    display:block;
+    width:100%;
+  }
+  .polaroid:nth-child(odd){ transform:rotate(-1.6deg); }
+  .polaroid:nth-child(even){ transform:rotate(1.4deg); }
+  .polaroid:hover{ transform:rotate(0) scale(1.02); }
+  .polaroid img{
+    display:block;
+    width:100%;
+    aspect-ratio:3 / 4;
+    object-fit:cover;
+    border-radius:2px;
+    background:var(--fondo-suave);
+  }
+  .polaroid.grande{ grid-column:1 / span 2; }
+  .polaroid.grande img{ aspect-ratio:4 / 3; }
+
+  .visor{
+    position:fixed;
+    inset:0;
+    z-index:1100;
+    background:rgba(30,32,27,.88);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    opacity:0;
+    visibility:hidden;
+    transition:opacity .3s ease, visibility .3s ease;
+    cursor:zoom-out;
+  }
+  .visor.abierto{ opacity:1; visibility:visible; }
+  .visor img{
+    max-width:100%;
+    max-height:100%;
+    border-radius:4px;
+    border:6px solid var(--blanco);
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+  }
+
+  /* ---------- Mariposas ---------- */
+  .mariposa{
+    position:fixed;
+    left:0;
+    top:0;
+    z-index:1000;
+    pointer-events:none;
+    will-change:transform, opacity;
+  }
+  .mariposa svg{ display:block; width:100%; height:auto; overflow:visible; }
+  .mariposa .ala{
+    transform-box:view-box;
+    transform-origin:20px 16px;
+    animation:aleteo var(--vel, .22s) ease-in-out infinite alternate;
+  }
+  @keyframes aleteo{
+    from{ transform:scaleX(1); }
+    to{ transform:scaleX(.18); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .nav-btn.siguiente.pulso{ animation:none; }
+  }
 </style>
 </head>
 <body>
 
-  <!-- ============ 1. PORTADA ============ -->
-  <section class="hero">
-    <svg class="floral tl" viewBox="0 0 200 200" aria-hidden="true"><use href="#ornamento-floral"/></svg>
-    <svg class="floral br" viewBox="0 0 200 200" aria-hidden="true"><use href="#ornamento-floral"/></svg>
+<div class="libro" id="libro">
 
-    <div class="hero-marco reveal">
-      <p class="hero-anuncio">Nos casamos</p>
-      <h1>Gabriel<span class="amp">&amp;</span>Belén</h1>
+  <!-- ============ PÁGINA 1 · PORTADA ============ -->
+  <article class="pagina actual">
+    <div class="cara">
+      <section class="hero">
+        <svg class="floral tl" viewBox="0 0 200 200" aria-hidden="true"><use href="#ornamento-floral"/></svg>
+        <svg class="floral br" viewBox="0 0 200 200" aria-hidden="true"><use href="#ornamento-floral"/></svg>
+
+        <div class="hero-marco reveal">
+          <p class="hero-anuncio">Nos casamos</p>
+          <h1>Gabriel<span class="amp">&amp;</span>Belén</h1>
+        </div>
+
+        <div class="sobre" id="sobre">
+          <div class="sobre-tarjeta">
+            <div class="sobre-cuerpo">
+              <div class="carta"></div>
+            </div>
+            <div class="sobre-solapa"></div>
+            <button class="sello" id="selloBtn" type="button" aria-label="Abrir la invitación">
+              <span class="sello-monograma">G<i>&amp;</i>B</span>
+            </button>
+          </div>
+          <p class="sobre-texto">Toca el sello para abrir tu invitación</p>
+        </div>
+      </section>
     </div>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
 
-    <div class="sobre" id="sobre">
-      <div class="sobre-tarjeta">
-        <div class="sobre-cuerpo">
-          <div class="carta"></div>
+  <!-- ============ PÁGINA 2 · CUENTA REGRESIVA ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="cuenta">
+        <div class="contenedor reveal">
+          <p class="eyebrow">Falta poco</p>
+          <h2 class="titulo-seccion">Nos vemos en...</h2>
+          <div class="reloj" id="reloj">
+            <div class="bloque"><span class="numero" id="dias">00</span><span class="unidad">Días</span></div>
+            <div class="bloque"><span class="numero" id="horas">00</span><span class="unidad">Horas</span></div>
+            <div class="bloque"><span class="numero" id="minutos">00</span><span class="unidad">Min</span></div>
+            <div class="bloque"><span class="numero" id="segundos">00</span><span class="unidad">Seg</span></div>
+          </div>
         </div>
-        <div class="sobre-solapa"></div>
-        <button class="sello" id="selloBtn" type="button" aria-label="Abrir la invitación">
-          <span class="sello-monograma">G<i>&amp;</i>B</span>
-        </button>
-      </div>
-      <p class="sobre-texto">Toca el sello para abrir tu invitación</p>
+      </section>
     </div>
-  </section>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
 
-  <!-- ============ 2. CUENTA REGRESIVA ============ -->
-  <section class="cuenta">
-    <div class="contenedor reveal">
-      <p class="eyebrow">Falta poco</p>
-      <h2 class="titulo-seccion">Nos vemos en...</h2>
-      <div class="reloj" id="reloj">
-        <div class="bloque"><span class="numero" id="dias">00</span><span class="unidad">Días</span></div>
-        <div class="bloque"><span class="numero" id="horas">00</span><span class="unidad">Horas</span></div>
-        <div class="bloque"><span class="numero" id="minutos">00</span><span class="unidad">Min</span></div>
-        <div class="bloque"><span class="numero" id="segundos">00</span><span class="unidad">Seg</span></div>
-      </div>
+  <!-- ============ PÁGINA 3 · FRASE ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="frase">
+        <div class="contenedor reveal">
+          <blockquote>&ldquo;Dos almas, un mismo camino: hoy elegimos caminarlo juntos, para siempre.&rdquo;</blockquote>
+          <div class="divisor">
+            <span class="linea"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c-2.2 2.2-3.6 4.4-3.6 6.6A3.6 3.6 0 0012 13.2a3.6 3.6 0 003.6-3.6C15.6 7.4 14.2 5.2 12 3z"/></svg>
+            <span class="linea"></span>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
 
-  <!-- ============ 3. FRASE ============ -->
-  <section class="frase">
-    <div class="contenedor reveal">
-      <blockquote>&ldquo;Dos almas, un mismo camino: hoy elegimos caminarlo juntos, para siempre.&rdquo;</blockquote>
-      <div class="divisor">
-        <span class="linea"></span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c-2.2 2.2-3.6 4.4-3.6 6.6A3.6 3.6 0 0012 13.2a3.6 3.6 0 003.6-3.6C15.6 7.4 14.2 5.2 12 3z"/></svg>
-        <span class="linea"></span>
-      </div>
+  <!-- ============ PÁGINA 4 · FOTOS ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="fotos">
+        <div class="contenedor reveal">
+          <p class="eyebrow">Nuestra historia</p>
+          <h2 class="titulo-seccion">Momentos juntos</h2>
+          <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg><span class="linea"></span></div>
+
+          <!-- Para cambiar fotos: reemplaza los archivos en la carpeta /fotos (mismo nombre) -->
+          <div class="album">
+            <button class="polaroid grande" type="button"><img src="../fotos/principal.jpg" alt="Gabriel y Belén" decoding="async"></button>
+            <button class="polaroid" type="button"><img src="../fotos/foto-2.jpg" alt="Gabriel y Belén" decoding="async"></button>
+            <button class="polaroid" type="button"><img src="../fotos/foto-3.jpg" alt="Gabriel y Belén" decoding="async"></button>
+            <button class="polaroid" type="button"><img src="../fotos/foto-4.jpg" alt="Gabriel y Belén" decoding="async"></button>
+            <button class="polaroid" type="button"><img src="../fotos/foto-5.jpg" alt="Gabriel y Belén" decoding="async"></button>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
 
-  <!-- ============ 4. CEREMONIA Y RECEPCIÓN ============ -->
-  <section class="ceremonia">
-    <div class="contenedor reveal">
-      <p class="eyebrow">Los detalles</p>
-      <h2 class="titulo-seccion">Ceremonia &amp; Recepción</h2>
-      <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="3"/></svg><span class="linea"></span></div>
+  <!-- ============ PÁGINA 5 · CEREMONIA Y RECEPCIÓN ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="ceremonia">
+        <div class="contenedor reveal">
+          <p class="eyebrow">Los detalles</p>
+          <h2 class="titulo-seccion">Ceremonia &amp; Recepción</h2>
+          <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="3"/></svg><span class="linea"></span></div>
 
-      <div class="tarjeta">
-        <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-        <h3>Jueves 17 de diciembre, 2026</h3>
-        <p>La celebración inicia a las <strong>4:00 p.m.</strong></p>
-      </div>
+          <div class="tarjeta">
+            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+            <h3>Jueves 17 de diciembre, 2026</h3>
+            <p>La celebración inicia a las <strong>4:00 p.m.</strong></p>
+          </div>
 
-      <div class="tarjeta">
-        <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-        <h3 id="salonNombre">[Nombre del salón]</h3>
-        <p class="direccion" id="salonDireccion">Quevedo, Los Ríos, Ecuador</p>
-        <div class="centrado">
-          <a class="boton" id="botonMaps" href="#" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            Cómo llegar
-          </a>
+          <div class="tarjeta">
+            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+            <h3 id="salonNombre">[Nombre del salón]</h3>
+            <p class="direccion" id="salonDireccion">Quevedo, Los Ríos, Ecuador</p>
+            <div class="centrado">
+              <a class="boton" id="botonMaps" href="#" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
+                Cómo llegar
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
     </div>
-  </section>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
 
-  <!-- ============ 5. DRESS CODE ============ -->
-  <section class="dresscode">
-    <div class="contenedor reveal">
-      <p class="eyebrow">Vestimenta</p>
-      <h2 class="titulo-seccion">Dress Code</h2>
-      <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c-3 3-5 6-5 9a5 5 0 0010 0c0-3-2-6-5-9z"/></svg><span class="linea"></span></div>
+  <!-- ============ PÁGINA 6 · DRESS CODE ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="dresscode">
+        <div class="contenedor reveal">
+          <p class="eyebrow">Vestimenta</p>
+          <h2 class="titulo-seccion">Dress Code</h2>
+          <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c-3 3-5 6-5 9a5 5 0 0010 0c0-3-2-6-5-9z"/></svg><span class="linea"></span></div>
 
-      <div class="dresscode-iconos">
-        <div class="grupo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 3L4 6v3h2v12h12V9h2V6l-4-3-2 2h-4L8 3z"/></svg>
-          <span>Caballeros</span>
+          <div class="dresscode-iconos">
+            <div class="grupo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 3L4 6v3h2v12h12V9h2V6l-4-3-2 2h-4L8 3z"/></svg>
+              <span>Caballeros</span>
+            </div>
+            <div class="grupo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 2h6l1 6-2 2 3 12H7l3-12-2-2 1-6z"/></svg>
+              <span>Damas</span>
+            </div>
+          </div>
+
+          <div class="centrado">
+            <span class="etiqueta-dresscode">Formal casual</span>
+          </div>
+          <p style="text-align:center; margin-top:16px; color:var(--marino-suave); font-size:.9rem;">Evitar blanco y tonos muy claros, reservados para la novia.</p>
         </div>
-        <div class="grupo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M9 2h6l1 6-2 2 3 12H7l3-12-2-2 1-6z"/></svg>
-          <span>Damas</span>
-        </div>
-      </div>
-
-      <div class="centrado">
-        <span class="etiqueta-dresscode">Formal casual</span>
-      </div>
-      <p style="text-align:center; margin-top:16px; color:var(--marino-suave); font-size:.9rem;">Evitar blanco y tonos muy claros, reservados para la novia.</p>
+      </section>
     </div>
-  </section>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
 
-  <!-- ============ 8. PASE RESERVADO ============ -->
-  <section class="pase">
-    <div class="contenedor reveal">
-      <p class="eyebrow">Este pase es solo para ti</p>
-      <div class="pase-tarjeta">
-        <p class="pase-eyebrow">Pase reservado para</p>
-        <p class="pase-nombre" id="paseNombre">Familia</p>
-        <p class="pase-personas" id="pasePersonas">1 persona</p>
-      </div>
+  <!-- ============ PÁGINA 7 · PASE RESERVADO ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="pase">
+        <div class="contenedor reveal">
+          <p class="eyebrow">Este pase es solo para ti</p>
+          <div class="pase-tarjeta">
+            <p class="pase-eyebrow">Pase reservado para</p>
+            <p class="pase-nombre" id="paseNombre">Familia</p>
+            <p class="pase-personas" id="pasePersonas">1 persona</p>
+          </div>
+        </div>
+      </section>
     </div>
-  </section>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
 
-  <!-- ============ 9. CONFIRMA TU ASISTENCIA ============ -->
-  <section class="confirmacion">
-    <div class="contenedor reveal">
-      <p class="eyebrow">Antes del 1 de diciembre de 2026</p>
-      <h2 class="titulo-seccion">Confirma tu Asistencia</h2>
-      <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 13l4 4L19 7"/></svg><span class="linea"></span></div>
+  <!-- ============ PÁGINA 8 · CONFIRMA TU ASISTENCIA ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="confirmacion">
+        <div class="contenedor reveal">
+          <p class="eyebrow">Antes del 1 de diciembre de 2026</p>
+          <h2 class="titulo-seccion">Confirma tu Asistencia</h2>
+          <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M5 13l4 4L19 7"/></svg><span class="linea"></span></div>
 
-      <form class="rsvp-form" id="rsvpForm" novalidate>
-        <div class="campo">
-          <label for="confirmacion">¿Cuántos asistirán?</label>
-          <select id="confirmacion" name="confirmacion" required>
-            <option value="" disabled selected>Selecciona una opción</option>
-          </select>
+          <form class="rsvp-form" id="rsvpForm" novalidate>
+            <div class="campo">
+              <label for="confirmacion">¿Cuántos asistirán?</label>
+              <select id="confirmacion" name="confirmacion" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+              </select>
+            </div>
+
+            <div class="campo" id="campoTelefono">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" name="telefono" placeholder="09XX XXX XXX">
+            </div>
+
+            <div class="campo">
+              <label for="mensaje">Mensaje para los novios</label>
+              <textarea id="mensaje" name="mensaje" placeholder="Déjales un mensaje bonito (opcional)"></textarea>
+            </div>
+
+            <p class="rsvp-error" id="rsvpError">Por favor selecciona una opción antes de enviar.</p>
+
+            <button type="submit" class="boton" id="botonEnviar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+              Enviar confirmación
+            </button>
+          </form>
+
+          <div class="rsvp-exito" id="rsvpExito">
+            <div class="check">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <h3 id="rsvpExitoTitulo">¡Gracias por confirmar!</h3>
+            <p id="rsvpExitoTexto">Ya recibimos tu respuesta. ¡Nos vemos pronto!</p>
+          </div>
         </div>
-
-        <div class="campo" id="campoAsistentes">
-          <label for="asistentes">Nombre de los asistentes</label>
-          <textarea id="asistentes" name="asistentes" placeholder="Ej: Juan Pérez, María Ruiz"></textarea>
-        </div>
-
-        <div class="campo" id="campoTelefono">
-          <label for="telefono">Teléfono</label>
-          <input type="tel" id="telefono" name="telefono" placeholder="09XX XXX XXX">
-        </div>
-
-        <div class="campo">
-          <label for="mensaje">Mensaje para los novios</label>
-          <textarea id="mensaje" name="mensaje" placeholder="Déjales un mensaje bonito (opcional)"></textarea>
-        </div>
-
-        <p class="rsvp-error" id="rsvpError">Por favor selecciona una opción antes de enviar.</p>
-
-        <button type="submit" class="boton" id="botonEnviar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
-          Enviar confirmación
-        </button>
-      </form>
-
-      <div class="rsvp-exito" id="rsvpExito">
-        <div class="check">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>
-        </div>
-        <h3 id="rsvpExitoTitulo">¡Gracias por confirmar!</h3>
-        <p id="rsvpExitoTexto">Ya recibimos tu respuesta. ¡Nos vemos pronto!</p>
-      </div>
+      </section>
+      <footer>Con todo nuestro amor, Gabriel &amp; Belén</footer>
     </div>
-  </section>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
 
-  <footer>Con todo nuestro amor, Gabriel &amp; Belén</footer>
+  <div class="lomo" aria-hidden="true"></div>
+</div>
+
+  <!-- ============ NAVEGACIÓN ENTRE PÁGINAS ============ -->
+  <nav class="nav-libro" aria-label="Páginas de la invitación">
+    <button class="nav-btn anterior" id="btnAnterior" type="button" aria-label="Página anterior">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <span class="nav-contador" id="contador" aria-live="polite">1 / 8</span>
+    <button class="nav-btn siguiente pulso" id="btnSiguiente" type="button">
+      Siguiente
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </nav>
+
+  <!-- Visor de fotos -->
+  <div class="visor" id="visor" role="dialog" aria-label="Foto ampliada"><img id="visorImg" alt="Gabriel y Belén"></div>
 
   <!-- ============ BOTÓN DE MÚSICA ============ -->
   <button id="musicToggle" class="boton-musica" aria-label="Reproducir música" aria-pressed="false" type="button">
@@ -771,19 +1099,91 @@
   </svg>
 
 <script>
+  const prefiereMenosMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- Mariposas ---------- */
+  const COLORES_MARIPOSA = [
+    ["#A68A55", "#C8AE7A"],
+    ["#7C8560", "#ACB395"],
+    ["#B7B29B", "#D8D3BD"],
+    ["#5B6853", "#8E9A6E"],
+    ["#C9A87C", "#E6D2AE"]
+  ];
+
+  function crearMariposa(){
+    const [c1, c2] = COLORES_MARIPOSA[Math.floor(Math.random() * COLORES_MARIPOSA.length)];
+    const el = document.createElement("div");
+    el.className = "mariposa";
+    el.style.width = (28 + Math.random() * 24) + "px";
+    el.style.setProperty("--vel", (0.16 + Math.random() * 0.12).toFixed(2) + "s");
+    el.innerHTML =
+      '<svg viewBox="0 0 40 32" aria-hidden="true">' +
+        '<g class="ala">' +
+          '<path d="M20 15C14 3 3 1 2 8c-1 6 8 9 18 8z" fill="' + c1 + '"/>' +
+          '<path d="M20 17C12 17 5 21 7 27c2 5 10 1 13-9z" fill="' + c2 + '"/>' +
+          '<path d="M20 15C26 3 37 1 38 8c1 6-8 9-18 8z" fill="' + c1 + '"/>' +
+          '<path d="M20 17C28 17 35 21 33 27c-2 5-10 1-13-9z" fill="' + c2 + '"/>' +
+          '<circle cx="8" cy="8" r="1.6" fill="#FBFAF6" opacity=".7"/>' +
+          '<circle cx="32" cy="8" r="1.6" fill="#FBFAF6" opacity=".7"/>' +
+        '</g>' +
+        '<ellipse cx="20" cy="17" rx="1.3" ry="7" fill="#3E4A38"/>' +
+        '<path d="M20 10q-2-5-5-6M20 10q2-5 5-6" stroke="#3E4A38" stroke-width=".8" fill="none" stroke-linecap="round"/>' +
+      '</svg>';
+    return el;
+  }
+
+  function lanzarMariposas(x, y, cantidad){
+    if (prefiereMenosMovimiento) return;
+    const ancho = window.innerWidth;
+    const alto = window.innerHeight;
+    for (let i = 0; i < cantidad; i++){
+      const m = crearMariposa();
+      document.body.appendChild(m);
+
+      // trayecto: sale del sello y revolotea hacia arriba hasta salir de la pantalla
+      const puntos = [];
+      let px = x, py = y;
+      const pasos = 4;
+      const dirX = (Math.random() - 0.5) * ancho * 1.1;
+      for (let p = 1; p <= pasos; p++){
+        const t = p / pasos;
+        px = x + dirX * t + (Math.random() - 0.5) * 120;
+        py = y - (alto * 0.35 + y) * t + (Math.random() - 0.5) * 60;
+        puntos.push([px, py]);
+      }
+      const frames = [{ transform: `translate(${x}px, ${y}px) translate(-50%,-50%) scale(.2) rotate(0deg)`, opacity: 0 }];
+      puntos.forEach((pt, idx) => {
+        const giro = (Math.random() - 0.5) * 50;
+        frames.push({
+          transform: `translate(${pt[0]}px, ${pt[1]}px) translate(-50%,-50%) scale(1) rotate(${giro}deg)`,
+          opacity: idx === puntos.length - 1 ? 0 : 1
+        });
+      });
+
+      const anim = m.animate(frames, {
+        duration: 3200 + Math.random() * 2600,
+        delay: Math.random() * 500,
+        easing: "cubic-bezier(.3,.1,.4,1)",
+        fill: "both"
+      });
+      anim.onfinish = () => m.remove();
+    }
+  }
+
   /* ---------- Sobre de apertura (portada) ---------- */
   (function(){
     const sobre = document.getElementById("sobre");
     const sello = document.getElementById("selloBtn");
     if (!sobre || !sello) return;
 
-    const prefiereMenosMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
     document.documentElement.classList.add("sobre-bloqueado");
 
     function abrirSobre(){
       if (sobre.classList.contains("roto")) return;
       sello.disabled = true;
+
+      const r = sello.getBoundingClientRect();
+      lanzarMariposas(r.left + r.width / 2, r.top + r.height / 2, 22);
 
       if (prefiereMenosMovimiento){
         sobre.classList.add("roto", "abriendo", "abierto");
@@ -796,10 +1196,131 @@
       setTimeout(() => {
         sobre.classList.add("abierto");
         document.documentElement.classList.remove("sobre-bloqueado");
+        // segunda tanda suave de mariposas cuando aparece la portada
+        lanzarMariposas(window.innerWidth / 2, window.innerHeight * 0.6, 10);
       }, 1500);
     }
 
     sello.addEventListener("click", abrirSobre);
+  })();
+
+  /* ---------- Libro: pasar de página ---------- */
+  (function(){
+    const paginas = Array.from(document.querySelectorAll(".pagina"));
+    const btnAnt = document.getElementById("btnAnterior");
+    const btnSig = document.getElementById("btnSiguiente");
+    const contador = document.getElementById("contador");
+    const DURACION = prefiereMenosMovimiento ? 1 : 1100;
+    const CURVA = "cubic-bezier(.45,.05,.25,1)";
+    let actual = 0;
+    let animando = false;
+
+    function mostrarContenido(pagina){
+      pagina.querySelectorAll(".reveal").forEach(el => el.classList.add("visible"));
+    }
+
+    function actualizarNav(){
+      contador.textContent = (actual + 1) + " / " + paginas.length;
+      btnAnt.disabled = actual === 0;
+      btnSig.disabled = actual === paginas.length - 1;
+      btnSig.classList.toggle("pulso", actual === 0);
+    }
+
+    function irA(destino){
+      if (animando || destino === actual || destino < 0 || destino >= paginas.length) return;
+      if (document.documentElement.classList.contains("sobre-bloqueado")) return;
+      animando = true;
+
+      const adelante = destino > actual;
+      const saliente = paginas[actual];
+      const entrante = paginas[destino];
+      entrante.querySelector(".cara").scrollTop = 0;
+
+      let hoja, fondo, frames;
+      if (adelante){
+        // la hoja actual se voltea hacia la izquierda y deja ver la siguiente
+        hoja = saliente; fondo = entrante;
+        frames = [
+          { transform: "rotateY(0deg)" },
+          { transform: "rotateY(-180deg)" }
+        ];
+      } else {
+        // la hoja anterior regresa desde la izquierda y cubre la actual
+        hoja = entrante; fondo = saliente;
+        frames = [
+          { transform: "rotateY(-180deg)" },
+          { transform: "rotateY(0deg)" }
+        ];
+      }
+
+      fondo.classList.add("debajo");
+      fondo.classList.remove("actual");
+      hoja.classList.add("actual");
+      hoja.classList.remove("debajo");
+      mostrarContenido(entrante);
+
+      const opciones = { duration: DURACION, easing: CURVA };
+      const giro = hoja.animate(frames, opciones);
+      hoja.querySelector(".tono").animate(
+        [{ opacity: 0 }, { opacity: 1, offset: .5 }, { opacity: 0 }], opciones);
+      fondo.querySelector(".sombra").animate(
+        adelante ? [{ opacity: 1 }, { opacity: 0 }] : [{ opacity: 0 }, { opacity: 1 }], opciones);
+
+      giro.onfinish = () => {
+        saliente.classList.remove("actual", "debajo");
+        entrante.classList.remove("debajo");
+        entrante.classList.add("actual");
+        actual = destino;
+        animando = false;
+        actualizarNav();
+      };
+      actual = destino;
+      actualizarNav();
+    }
+
+    btnSig.addEventListener("click", () => irA(actual + 1));
+    btnAnt.addEventListener("click", () => irA(actual - 1));
+
+    document.addEventListener("keydown", (e) => {
+      if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+      if (e.key === "ArrowRight") irA(actual + 1);
+      if (e.key === "ArrowLeft") irA(actual - 1);
+    });
+
+    // deslizar con el dedo (izquierda = siguiente, derecha = anterior)
+    let inicioX = 0, inicioY = 0, tocando = false;
+    const libro = document.getElementById("libro");
+    libro.addEventListener("touchstart", (e) => {
+      if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+      tocando = true;
+      inicioX = e.touches[0].clientX;
+      inicioY = e.touches[0].clientY;
+    }, { passive: true });
+    libro.addEventListener("touchend", (e) => {
+      if (!tocando) return;
+      tocando = false;
+      const dx = e.changedTouches[0].clientX - inicioX;
+      const dy = e.changedTouches[0].clientY - inicioY;
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5){
+        irA(dx < 0 ? actual + 1 : actual - 1);
+      }
+    });
+
+    mostrarContenido(paginas[0]);
+    actualizarNav();
+  })();
+
+  /* ---------- Visor de fotos ---------- */
+  (function(){
+    const visor = document.getElementById("visor");
+    const img = document.getElementById("visorImg");
+    document.querySelectorAll(".polaroid").forEach(p => {
+      p.addEventListener("click", () => {
+        img.src = p.querySelector("img").src;
+        visor.classList.add("abierto");
+      });
+    });
+    visor.addEventListener("click", () => visor.classList.remove("abierto"));
   })();
 
   /* ==========================================================
@@ -840,17 +1361,6 @@
   actualizarReloj();
   setInterval(actualizarReloj, 1000);
 
-  /* ---------- Animación al hacer scroll ---------- */
-  const observador = new IntersectionObserver((entradas) => {
-    entradas.forEach(entrada => {
-      if (entrada.isIntersecting){
-        entrada.target.classList.add("visible");
-        observador.unobserve(entrada.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll(".reveal").forEach(el => observador.observe(el));
-
   /* ---------- Pase reservado personalizado (parámetros de la URL) ---------- */
   const parametros = new URLSearchParams(window.location.search);
   const invitado = parametros.get("invitado") || "Familia";
@@ -875,11 +1385,6 @@
   opcionNo.textContent = "No podré asistir";
   selectConfirmacion.appendChild(opcionNo);
 
-  selectConfirmacion.addEventListener("change", () => {
-    const noAsiste = selectConfirmacion.value === "no";
-    document.getElementById("campoAsistentes").style.display = noAsiste ? "none" : "block";
-  });
-
   /* ---------- Envío del formulario a Google Sheets ---------- */
   const form = document.getElementById("rsvpForm");
   const errorMsg = document.getElementById("rsvpError");
@@ -899,7 +1404,7 @@
       invitado: invitado,
       pasesAsignados: pases,
       confirmacion: selectConfirmacion.value,
-      asistentes: document.getElementById("asistentes").value.trim(),
+      asistentes: "",   // campo eliminado del formulario; se envía vacío para no descuadrar la hoja
       telefono: document.getElementById("telefono").value.trim(),
       mensaje: document.getElementById("mensaje").value.trim(),
       fecha: new Date().toISOString()
