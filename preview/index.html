@@ -311,6 +311,48 @@
     margin:0 auto;
   }
   .frase .divisor .linea{ background:var(--dorado); }
+  .frase .divisor{ margin:22px auto 22px; color:var(--dorado); }
+  .anillos-marco{
+    position:relative;
+    width:min(62vw, 230px);
+    aspect-ratio:4 / 5;
+    margin:0 auto 30px;
+    border-radius:120px 120px 10px 10px;
+    border:1.5px solid var(--dorado);
+    padding:7px;
+    background:rgba(251,250,246,.05);
+  }
+  .anillos-marco img,
+  .anillos-dibujo{
+    position:absolute;
+    inset:7px;
+    width:calc(100% - 14px);
+    height:calc(100% - 14px);
+    border-radius:113px 113px 6px 6px;
+  }
+  .anillos-marco img{ object-fit:cover; }
+  .anillos-dibujo{ padding:10%; background:rgba(251,250,246,.06); }
+  .cita-biblica{
+    margin-top:12px;
+    font-size:.78rem;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--dorado);
+  }
+  .frase-nombres{
+    font-family:'Cormorant Garamond', serif;
+    font-size:2rem;
+    color:var(--fondo);
+    line-height:1.2;
+  }
+  .frase-nombres span{ font-style:italic; color:var(--dorado); font-size:.8em; }
+  .frase-bendicion{
+    margin-top:8px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.1rem;
+    color:var(--oliva-suave);
+  }
 
   /* ---------- TARJETAS (Ceremonia / Dress code / etc.) ---------- */
   .tarjeta{
@@ -874,12 +916,30 @@
     <div class="cara">
       <section class="frase">
         <div class="contenedor reveal">
-          <blockquote>&ldquo;Dos almas, un mismo camino: hoy elegimos caminarlo juntos, para siempre.&rdquo;</blockquote>
+          <!-- Foto de los anillos: sube tu foto como fotos/anillos.jpg. Si no existe, se muestra el dibujo. -->
+          <div class="anillos-marco">
+            <svg class="anillos-dibujo" viewBox="0 0 120 90" aria-hidden="true">
+              <defs>
+                <linearGradient id="oroAnillo" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#E6D2AE"/><stop offset=".5" stop-color="#A68A55"/><stop offset="1" stop-color="#7a6236"/>
+                </linearGradient>
+              </defs>
+              <circle cx="48" cy="52" r="22" fill="none" stroke="url(#oroAnillo)" stroke-width="5"/>
+              <circle cx="74" cy="52" r="22" fill="none" stroke="url(#oroAnillo)" stroke-width="5"/>
+              <path d="M40 30l8-8 8 8-8 6z" fill="#FBFAF6" stroke="#E6D2AE" stroke-width="1"/>
+            </svg>
+            <img src="../fotos/anillos.jpg" alt="Anillos de Gabriel y Belén" onerror="this.remove()">
+          </div>
+
+          <blockquote>&ldquo;Por tanto, lo que Dios juntó, no lo separe el hombre.&rdquo;</blockquote>
+          <p class="cita-biblica">Marcos 10:9</p>
           <div class="divisor">
             <span class="linea"></span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M12 3c-2.2 2.2-3.6 4.4-3.6 6.6A3.6 3.6 0 0012 13.2a3.6 3.6 0 003.6-3.6C15.6 7.4 14.2 5.2 12 3z"/></svg>
             <span class="linea"></span>
           </div>
+          <p class="frase-nombres">Gabriel <span>&amp;</span> Belén</p>
+          <p class="frase-bendicion">Unidos en amor, bajo la bendición de Dios.</p>
         </div>
       </section>
     </div>
