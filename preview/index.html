@@ -986,12 +986,27 @@
   /* ---------- Página de fotos ---------- */
   .album{
     display:grid;
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:1.25fr 1fr 1fr;
-    gap:12px 12px;
+    grid-template-columns:repeat(6, 1fr);
+    grid-template-rows:1.55fr 1.2fr 1fr;
+    grid-template-areas:
+      "a a a a a a"
+      "b b c c e e"
+      "d d d d d d";
+    gap:12px 10px;
     margin-top:4px;
-    height:min(60svh, 520px);
+    height:min(62svh, 540px);
   }
+  .polaroid.f1{ grid-area:a; }
+  .polaroid.f2{ grid-area:b; }
+  .polaroid.f3{ grid-area:c; }
+  .polaroid.f4{ grid-area:d; }
+  .polaroid.f5{ grid-area:e; }
+  /* encuadre de cada foto para que no se corten las caras */
+  .polaroid.f1 img{ object-position:50% 38%; }
+  .polaroid.f2 img{ object-position:50% 12%; }
+  .polaroid.f3 img{ object-position:50% 30%; }
+  .polaroid.f4 img{ object-position:50% 46%; }
+  .polaroid.f5 img{ object-position:50% 14%; }
   .polaroid{
     background:var(--blanco);
     padding:6px;
@@ -1005,8 +1020,9 @@
     display:block;
     width:100%;
   }
-  .polaroid:nth-child(odd){ transform:rotate(-1.6deg); }
-  .polaroid:nth-child(even){ transform:rotate(1.4deg); }
+  .polaroid:nth-child(odd){ transform:rotate(-1.2deg); }
+  .polaroid:nth-child(even){ transform:rotate(1.2deg); }
+  .polaroid.f1{ transform:rotate(-.6deg); }
   .polaroid:hover{ transform:rotate(0) scale(1.02); }
   .polaroid img{
     display:block;
@@ -1016,7 +1032,6 @@
     border-radius:2px;
     background:var(--fondo-suave);
   }
-  .polaroid.grande{ grid-column:1 / span 2; }
 
   .visor{
     position:fixed;
@@ -1162,11 +1177,11 @@
 
           <!-- Para cambiar fotos: reemplaza los archivos en la carpeta /fotos (mismo nombre) -->
           <div class="album">
-            <button class="polaroid grande" type="button"><img src="../fotos/principal.jpg" alt="Gabriel y Belén" decoding="async"></button>
-            <button class="polaroid" type="button"><img src="../fotos/foto-2.jpg" alt="Gabriel y Belén" decoding="async"></button>
-            <button class="polaroid" type="button"><img src="../fotos/foto-3.jpg" alt="Gabriel y Belén" decoding="async"></button>
-            <button class="polaroid" type="button"><img src="../fotos/foto-4.jpg" alt="Gabriel y Belén" decoding="async"></button>
-            <button class="polaroid" type="button"><img src="../fotos/foto-5.jpg" alt="Gabriel y Belén" decoding="async"></button>
+            <button class="polaroid f1" type="button"><img src="../fotos/principal.jpg" alt="Gabriel y Belén en el marco de flores" decoding="async"></button>
+            <button class="polaroid f2" type="button"><img src="../fotos/foto-2.jpg" alt="Gabriel y Belén abrazados" decoding="async"></button>
+            <button class="polaroid f3" type="button"><img src="../fotos/foto-3.jpg" alt="Gabriel y Belén de noche junto al barco" decoding="async"></button>
+            <button class="polaroid f5" type="button"><img src="../fotos/foto-5.jpg" alt="Gabriel y Belén en el parque" decoding="async"></button>
+            <button class="polaroid f4" type="button"><img src="../fotos/foto-4.jpg" alt="Gabriel cargando a Belén en el mirador" decoding="async"></button>
           </div>
         </div>
       </section>
