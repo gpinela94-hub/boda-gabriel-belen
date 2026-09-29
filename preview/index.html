@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Gabriel &amp; Belén · 17 de diciembre de 2026</title>
+<title>Gabriel &amp; Belén · 20 de diciembre de 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --fondo: #ECEDE6;
-    --fondo-suave: #E1E3D7;
+    --fondo: #F8F1DC;          /* crema mantequilla */
+    --fondo-suave: #EFE4C3;
+    --mantequilla: #F1DD9E;    /* color mantequilla */
+    --mantequilla-oscuro: #D9BD6A;
     --marino: #3E4A38;
     --marino-suave: #5B6853;
     --oliva: #7C8560;
@@ -18,13 +20,14 @@
     --dorado: #A68A55;
     --rosa: #B7B29B;
     --tinta: #2B2B26;
-    --blanco: #FBFAF6;
+    --blanco: #FFFCF2;
   }
 
   *{ box-sizing:border-box; margin:0; padding:0; }
 
   html{ scroll-behavior:smooth; }
   html.sobre-bloqueado, html.sobre-bloqueado body{ overflow:hidden; height:100%; }
+  html.sobre-bloqueado .hero-marco{ visibility:hidden; }
 
   body{
     background:var(--fondo);
@@ -72,7 +75,7 @@
     align-items:center;
     justify-content:center;
     gap:14px;
-    margin:22px auto 42px;
+    margin:14px auto 22px;
   }
   .divisor .linea{ width:46px; height:1px; background:var(--dorado); opacity:.8; }
   .divisor svg{ width:18px; height:18px; color:var(--dorado); }
@@ -156,7 +159,7 @@
     align-items:center;
     justify-content:center;
     gap:24px;
-    background:var(--fondo);
+    background:transparent;
     transition:opacity .6s ease .1s, visibility .6s ease .1s;
   }
   .sobre.abierto{
@@ -204,7 +207,7 @@
     position:absolute;
     top:0; left:0; right:0;
     height:62%;
-    background:linear-gradient(165deg, var(--fondo-suave), #d3d6c5);
+    background:linear-gradient(165deg, var(--mantequilla), #E4CF8F);
     clip-path:polygon(0 0, 100% 0, 50% 100%);
     transform-origin:top center;
     transform:rotateX(0deg);
@@ -284,6 +287,7 @@
 
   .bloque .numero{
     font-family:'Cormorant Garamond', serif;
+    color:var(--mantequilla);
     font-size:2rem;
     font-weight:600;
     display:block;
@@ -311,12 +315,12 @@
     margin:0 auto;
   }
   .frase .divisor .linea{ background:var(--dorado); }
-  .frase .divisor{ margin:22px auto 22px; color:var(--dorado); }
+  .frase .divisor{ margin:14px auto 14px; color:var(--dorado); }
   .anillos-marco{
     position:relative;
-    width:min(62vw, 230px);
+    width:min(46vw, 180px, 24svh);
     aspect-ratio:4 / 5;
-    margin:0 auto 30px;
+    margin:0 auto 20px;
     border-radius:120px 120px 10px 10px;
     border:1.5px solid var(--dorado);
     padding:7px;
@@ -337,7 +341,7 @@
     font-size:.78rem;
     letter-spacing:.2em;
     text-transform:uppercase;
-    color:var(--dorado);
+    color:var(--mantequilla);
   }
   .frase-nombres{
     font-family:'Cormorant Garamond', serif;
@@ -345,7 +349,7 @@
     color:var(--fondo);
     line-height:1.2;
   }
-  .frase-nombres span{ font-style:italic; color:var(--dorado); font-size:.8em; }
+  .frase-nombres span{ font-style:italic; color:var(--mantequilla); font-size:.8em; }
   .frase-bendicion{
     margin-top:8px;
     font-family:'Cormorant Garamond', serif;
@@ -357,9 +361,9 @@
   /* ---------- TARJETAS (Ceremonia / Dress code / etc.) ---------- */
   .tarjeta{
     background:var(--blanco);
-    border:1px solid rgba(62,74,56,.08);
+    border:1px solid rgba(217,189,106,.45);
     border-radius:14px;
-    padding:28px 24px;
+    padding:22px 20px;
     text-align:center;
     box-shadow:0 10px 30px rgba(62,74,56,.06);
   }
@@ -405,6 +409,183 @@
 
   .centrado{ text-align:center; margin-top:20px; }
 
+  /* ---------- CALENDARIO ---------- */
+  .calendario-tarjeta{ padding:18px 16px 16px; }
+  .cal-mes{
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.45rem;
+    font-weight:500;
+    color:var(--marino);
+    letter-spacing:.04em;
+    margin-bottom:8px;
+  }
+  .calendario{
+    display:grid;
+    grid-template-columns:repeat(7, 1fr);
+    gap:2px 0;
+    max-width:300px;
+    margin:0 auto;
+  }
+  .calendario .dia-semana{
+    font-size:.66rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--oliva);
+    padding-bottom:4px;
+    border-bottom:1px solid rgba(217,189,106,.5);
+    margin-bottom:4px;
+  }
+  .calendario .dia{
+    height:30px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.88rem;
+    color:var(--marino-suave);
+  }
+  .calendario .dia.boda{
+    position:relative;
+    color:var(--mantequilla);
+    font-weight:500;
+  }
+  .calendario .dia.boda::before{
+    content:"";
+    position:absolute;
+    width:32px; height:32px;
+    border-radius:50%;
+    background:var(--marino);
+    box-shadow:0 0 0 3px var(--mantequilla);
+    z-index:-1;
+  }
+  .calendario .dia.boda{ z-index:0; }
+  .calendario .dia.boda::after{
+    content:"\2665";
+    position:absolute;
+    top:-9px; right:2px;
+    font-size:.8rem;
+    color:#B5695A;
+  }
+  .cal-fecha{ margin-top:10px; }
+  .ubicacion-tarjeta{ padding:16px 20px 18px; }
+  .ubicacion-tarjeta .centrado{ margin-top:10px; }
+  @media (max-height:760px){
+    .calendario .dia{ height:25px; font-size:.82rem; }
+    .calendario .dia.boda::before{ width:27px; height:27px; }
+    .ceremonia .tarjeta + .tarjeta{ margin-top:12px; }
+  }
+
+  /* ---------- ITINERARIO ---------- */
+  .itinerario{
+    list-style:none;
+    position:relative;
+    margin:0 auto;
+    max-width:400px;
+    padding-left:4px;
+  }
+  .itinerario::before{
+    content:"";
+    position:absolute;
+    top:8px; bottom:8px;
+    left:97.5px;
+    width:1px;
+    background:linear-gradient(to bottom, rgba(166,138,85,0), var(--dorado) 8%, var(--dorado) 92%, rgba(166,138,85,0));
+  }
+  .itinerario li{
+    display:grid;
+    grid-template-columns:70px 28px 1fr;
+    align-items:start;
+    column-gap:10px;
+    padding:5px 0;
+  }
+  .itinerario .hora{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--marino);
+    text-align:right;
+    line-height:1.3;
+    white-space:nowrap;
+  }
+  .itinerario .punto{
+    width:28px; height:28px;
+    border-radius:50%;
+    background:var(--blanco);
+    border:1.2px solid var(--dorado);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--oliva);
+    position:relative;
+    z-index:1;
+  }
+  .itinerario .punto svg{ width:15px; height:15px; }
+  .itinerario h3{ font-size:1.15rem; line-height:1.3; }
+  .itinerario h3{ font-size:1.08rem; }
+  @media (max-height:760px){
+    .itinerario p{ display:none; }
+    .itinerario li{ align-items:center; padding:4px 0; }
+  }
+  .itinerario p{ font-size:.8rem; color:var(--marino-suave); line-height:1.45; }
+
+  /* ---------- REGALOS ---------- */
+  .regalos-intro{
+    text-align:center;
+    color:var(--marino-suave);
+    font-size:.95rem;
+    max-width:400px;
+    margin:0 auto 18px;
+  }
+  .datos-banco{ text-align:left; padding:20px 20px 12px; }
+  .datos-banco .banco-titulo{
+    text-align:center;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.35rem;
+    color:var(--marino);
+    margin-bottom:14px;
+  }
+  .dato{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:10px 0;
+    border-top:1px solid rgba(62,74,56,.1);
+  }
+  .dato-etiqueta{
+    display:block;
+    font-size:.72rem;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--oliva);
+  }
+  .dato-valor{
+    display:block;
+    font-size:1rem;
+    font-weight:400;
+    color:var(--tinta);
+    word-break:break-all;
+  }
+  .copiar{
+    flex-shrink:0;
+    border:1px solid rgba(62,74,56,.3);
+    background:transparent;
+    color:var(--marino);
+    border-radius:20px;
+    padding:6px 14px;
+    font-family:'Jost', sans-serif;
+    font-size:.78rem;
+    cursor:pointer;
+    transition:background .2s ease, color .2s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .copiar:hover, .copiar.ok{ background:var(--marino); color:var(--fondo); }
+  .regalos-gracias{
+    text-align:center;
+    margin-top:16px;
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.1rem;
+    color:var(--oliva);
+  }
+
   /* ---------- DRESS CODE ---------- */
   .dresscode-iconos{
     display:flex;
@@ -420,7 +601,8 @@
     display:inline-block;
     margin-top:4px;
     padding:8px 22px;
-    border:1px solid var(--dorado);
+    border:1px solid var(--mantequilla-oscuro);
+    background:var(--mantequilla);
     border-radius:30px;
     font-family:'Cormorant Garamond', serif;
     font-style:italic;
@@ -452,7 +634,7 @@
     font-size:.72rem;
     letter-spacing:.18em;
     text-transform:uppercase;
-    color:var(--dorado);
+    color:var(--mantequilla);
     margin-bottom:14px;
   }
   .pase-nombre{
@@ -470,7 +652,7 @@
   /* ---------- RSVP ---------- */
   .rsvp-form{ margin-top:12px; }
 
-  .campo{ margin-bottom:18px; text-align:left; }
+  .campo{ margin-bottom:14px; text-align:left; }
   .campo label{
     display:block;
     margin-bottom:7px;
@@ -489,14 +671,14 @@
     background:var(--blanco);
     border:1px solid rgba(62,74,56,.18);
     border-radius:8px;
-    padding:13px 14px;
+    padding:11px 14px;
     outline:none;
     transition:border-color .2s ease;
   }
   .campo input:focus,
   .campo select:focus,
   .campo textarea:focus{ border-color:var(--marino); }
-  .campo textarea{ resize:vertical; min-height:90px; }
+  .campo textarea{ resize:none; min-height:70px; height:70px; }
 
   .rsvp-form .boton{ width:100%; justify-content:center; margin-top:6px; }
 
@@ -606,7 +788,7 @@
      LIBRO — cada sección es una página que se voltea
      ========================================================== */
   html, body{ height:100%; overflow:hidden; }
-  body{ background:#D6D9CB; }
+  body{ background:linear-gradient(160deg, #B4C09C 0%, #8C9C74 55%, #6F7F5A 100%); }
 
   .libro{
     position:fixed;
@@ -634,7 +816,7 @@
     backface-visibility:hidden;
   }
   .cara{
-    overflow-y:auto;
+    overflow-y:hidden;
     overflow-x:hidden;
     -webkit-overflow-scrolling:touch;
     background:var(--fondo);
@@ -642,7 +824,7 @@
   }
   .dorso{
     transform:rotateY(180deg);
-    background:linear-gradient(to left, #d9dccd 0%, var(--fondo) 22%, #F3F3EE 100%);
+    background:linear-gradient(to left, #E6DAB4 0%, var(--fondo) 22%, #FCF7E8 100%);
   }
   /* brillo/sombra que recorre la hoja al voltearse */
   .tono{
@@ -669,17 +851,39 @@
     background:linear-gradient(to right, rgba(43,43,38,.16), rgba(43,43,38,0));
   }
 
+  /* fondo inspirado en la naturaleza: ramas de eucalipto en las esquinas */
+  .cara{
+    background:
+      radial-gradient(ellipse at 85% 10%, rgba(241,221,158,.45), transparent 55%),
+      radial-gradient(ellipse at 10% 90%, rgba(172,179,149,.35), transparent 55%),
+      var(--fondo);
+  }
+  .cara::before, .cara::after{
+    content:"";
+    position:absolute;
+    width:min(34vw, 190px);
+    aspect-ratio:1;
+    opacity:.85;
+    background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 240 240%22%3E%3Cdefs%3E%3Cfilter id=%22b%22%3E%3CfeGaussianBlur stdDeviation=%2214%22/%3E%3C/filter%3E%3C/defs%3E%3Cg filter=%22url(%23b)%22 opacity=%22.5%22%3E%3Cellipse cx=%2260%22 cy=%2250%22 rx=%2280%22 ry=%2255%22 fill=%22%23C9D1B3%22/%3E%3Cellipse cx=%22150%22 cy=%2230%22 rx=%2250%22 ry=%2230%22 fill=%22%23F1E2AE%22/%3E%3C/g%3E%3Cpath d=%22M-5 20Q90 40 190 150%22 stroke=%22%236E7A55%22 stroke-width=%221.4%22 fill=%22none%22 opacity=%220.85%22/%3E%3Cellipse cx=%2222.0%22 cy=%2237.0%22 rx=%2212.3%22 ry=%227.6%22 transform=%22rotate(73 22.0 37.0)%22 fill=%22%23ACB395%22 opacity=%220.85%22/%3E%3Cellipse cx=%2227.7%22 cy=%2219.8%22 rx=%2212.3%22 ry=%227.6%22 transform=%22rotate(-37 27.7 19.8)%22 fill=%22%2395A07A%22 opacity=%220.85%22/%3E%3Cellipse cx=%2244.8%22 cy=%2245.8%22 rx=%2211.5%22 ry=%227.2%22 transform=%22rotate(79 44.8 45.8)%22 fill=%22%238A9A73%22 opacity=%220.85%22/%3E%3Cellipse cx=%2251.7%22 cy=%2230.2%22 rx=%2211.5%22 ry=%227.2%22 transform=%22rotate(-31 51.7 30.2)%22 fill=%22%237C8560%22 opacity=%220.85%22/%3E%3Cellipse cx=%2268.0%22 cy=%2257.3%22 rx=%2210.8%22 ry=%226.7%22 transform=%22rotate(84 68.0 57.3)%22 fill=%22%237C8560%22 opacity=%220.85%22/%3E%3Cellipse cx=%2275.7%22 cy=%2243.4%22 rx=%2210.8%22 ry=%226.7%22 transform=%22rotate(-26 75.7 43.4)%22 fill=%22%23B9C2A2%22 opacity=%220.85%22/%3E%3Cellipse cx=%2291.5%22 cy=%2271.6%22 rx=%2210.1%22 ry=%226.2%22 transform=%22rotate(89 91.5 71.6)%22 fill=%22%237C8560%22 opacity=%220.85%22/%3E%3Cellipse cx=%2299.7%22 cy=%2259.2%22 rx=%2210.1%22 ry=%226.2%22 transform=%22rotate(-21 99.7 59.2)%22 fill=%22%23ACB395%22 opacity=%220.85%22/%3E%3Cellipse cx=%22115.3%22 cy=%2288.6%22 rx=%229.3%22 ry=%225.8%22 transform=%22rotate(93 115.3 88.6)%22 fill=%22%23B9C2A2%22 opacity=%220.85%22/%3E%3Cellipse cx=%22123.7%22 cy=%2277.7%22 rx=%229.3%22 ry=%225.8%22 transform=%22rotate(-17 123.7 77.7)%22 fill=%22%237C8560%22 opacity=%220.85%22/%3E%3Cellipse cx=%22139.4%22 cy=%22108.3%22 rx=%228.6%22 ry=%225.3%22 transform=%22rotate(97 139.4 108.3)%22 fill=%22%23B9C2A2%22 opacity=%220.85%22/%3E%3Cellipse cx=%22147.9%22 cy=%2298.8%22 rx=%228.6%22 ry=%225.3%22 transform=%22rotate(-13 147.9 98.8)%22 fill=%22%2395A07A%22 opacity=%220.85%22/%3E%3Cellipse cx=%22163.9%22 cy=%22130.9%22 rx=%227.9%22 ry=%224.9%22 transform=%22rotate(100 163.9 130.9)%22 fill=%22%237C8560%22 opacity=%220.85%22/%3E%3Cellipse cx=%22172.1%22 cy=%22122.7%22 rx=%227.9%22 ry=%224.9%22 transform=%22rotate(-10 172.1 122.7)%22 fill=%22%237C8560%22 opacity=%220.85%22/%3E%3Cpath d=%22M10 -5Q40 90 20 200%22 stroke=%22%236E7A55%22 stroke-width=%221.4%22 fill=%22none%22 opacity=%220.7%22/%3E%3Cellipse cx=%2211.4%22 cy=%2229.4%22 rx=%2210.3%22 ry=%226.4%22 transform=%22rotate(132 11.4 29.4)%22 fill=%22%238A9A73%22 opacity=%220.7%22/%3E%3Cellipse cx=%2226.2%22 cy=%2225.9%22 rx=%2210.3%22 ry=%226.4%22 transform=%22rotate(22 26.2 25.9)%22 fill=%22%238A9A73%22 opacity=%220.7%22/%3E%3Cellipse cx=%2216.9%22 cy=%2256.5%22 rx=%229.6%22 ry=%225.9%22 transform=%22rotate(136 16.9 56.5)%22 fill=%22%237C8560%22 opacity=%220.7%22/%3E%3Cellipse cx=%2230.8%22 cy=%2254.3%22 rx=%229.6%22 ry=%225.9%22 transform=%22rotate(26 30.8 54.3)%22 fill=%22%2395A07A%22 opacity=%220.7%22/%3E%3Cellipse cx=%2220.4%22 cy=%2284.3%22 rx=%228.9%22 ry=%225.5%22 transform=%22rotate(140 20.4 84.3)%22 fill=%22%237C8560%22 opacity=%220.7%22/%3E%3Cellipse cx=%2233.4%22 cy=%2283.2%22 rx=%228.9%22 ry=%225.5%22 transform=%22rotate(30 33.4 83.2)%22 fill=%22%23B9C2A2%22 opacity=%220.7%22/%3E%3Cellipse cx=%2222.0%22 cy=%22112.8%22 rx=%228.2%22 ry=%225.1%22 transform=%22rotate(144 22.0 112.8)%22 fill=%22%238A9A73%22 opacity=%220.7%22/%3E%3Cellipse cx=%2234.0%22 cy=%22112.6%22 rx=%228.2%22 ry=%225.1%22 transform=%22rotate(34 34.0 112.6)%22 fill=%22%237C8560%22 opacity=%220.7%22/%3E%3Cellipse cx=%2221.6%22 cy=%22141.9%22 rx=%227.5%22 ry=%224.6%22 transform=%22rotate(148 21.6 141.9)%22 fill=%22%23B9C2A2%22 opacity=%220.7%22/%3E%3Cellipse cx=%2232.6%22 cy=%22142.5%22 rx=%227.5%22 ry=%224.6%22 transform=%22rotate(38 32.6 142.5)%22 fill=%22%237C8560%22 opacity=%220.7%22/%3E%3Cellipse cx=%2219.3%22 cy=%22171.8%22 rx=%226.8%22 ry=%224.2%22 transform=%22rotate(152 19.3 171.8)%22 fill=%22%2395A07A%22 opacity=%220.7%22/%3E%3Cellipse cx=%2229.2%22 cy=%22172.9%22 rx=%226.8%22 ry=%224.2%22 transform=%22rotate(42 29.2 172.9)%22 fill=%22%23B9C2A2%22 opacity=%220.7%22/%3E%3Cpath d=%22M-5 70Q60 110 110 230%22 stroke=%22%236E7A55%22 stroke-width=%221.4%22 fill=%22none%22 opacity=%220.55%22/%3E%3Cellipse cx=%2215.5%22 cy=%2293.0%22 rx=%228.3%22 ry=%225.2%22 transform=%22rotate(95 15.5 93.0)%22 fill=%22%237C8560%22 opacity=%220.55%22/%3E%3Cellipse cx=%2223.5%22 cy=%2283.7%22 rx=%228.3%22 ry=%225.2%22 transform=%22rotate(-15 23.5 83.7)%22 fill=%22%23B9C2A2%22 opacity=%220.55%22/%3E%3Cellipse cx=%2235.1%22 cy=%22112.3%22 rx=%227.6%22 ry=%224.7%22 transform=%22rotate(103 35.1 112.3)%22 fill=%22%23B9C2A2%22 opacity=%220.55%22/%3E%3Cellipse cx=%2243.5%22 cy=%22104.7%22 rx=%227.6%22 ry=%224.7%22 transform=%22rotate(-7 43.5 104.7)%22 fill=%22%238A9A73%22 opacity=%220.55%22/%3E%3Cellipse cx=%2254.2%22 cy=%22135.9%22 rx=%227.0%22 ry=%224.3%22 transform=%22rotate(109 54.2 135.9)%22 fill=%22%237C8560%22 opacity=%220.55%22/%3E%3Cellipse cx=%2262.5%22 cy=%22129.9%22 rx=%227.0%22 ry=%224.3%22 transform=%22rotate(-1 62.5 129.9)%22 fill=%22%2395A07A%22 opacity=%220.55%22/%3E%3Cellipse cx=%2272.6%22 cy=%22164.0%22 rx=%226.3%22 ry=%223.9%22 transform=%22rotate(114 72.6 164.0)%22 fill=%22%237C8560%22 opacity=%220.55%22/%3E%3Cellipse cx=%2280.7%22 cy=%22159.3%22 rx=%226.3%22 ry=%223.9%22 transform=%22rotate(4 80.7 159.3)%22 fill=%22%23B9C2A2%22 opacity=%220.55%22/%3E%3Cellipse cx=%2290.5%22 cy=%22196.7%22 rx=%225.6%22 ry=%223.5%22 transform=%22rotate(119 90.5 196.7)%22 fill=%22%2395A07A%22 opacity=%220.55%22/%3E%3Cellipse cx=%2297.9%22 cy=%22193.0%22 rx=%225.6%22 ry=%223.5%22 transform=%22rotate(9 97.9 193.0)%22 fill=%22%23ACB395%22 opacity=%220.55%22/%3E%3Ccircle cx=%22118%22 cy=%2270%22 r=%223.4%22 fill=%22%23E9CF86%22 opacity=%22.9%22/%3E%3Ccircle cx=%22126%22 cy=%2278%22 r=%223.4%22 fill=%22%23E9CF86%22 opacity=%22.9%22/%3E%3Ccircle cx=%22112%22 cy=%2282%22 r=%223.4%22 fill=%22%23E9CF86%22 opacity=%22.9%22/%3E%3Ccircle cx=%2260%22 cy=%22130%22 r=%223.4%22 fill=%22%23E9CF86%22 opacity=%22.9%22/%3E%3Ccircle cx=%2267%22 cy=%22138%22 r=%223.4%22 fill=%22%23E9CF86%22 opacity=%22.9%22/%3E%3Ccircle cx=%22160%22 cy=%2240%22 r=%223.4%22 fill=%22%23E9CF86%22 opacity=%22.9%22/%3E%3Ccircle cx=%22168%22 cy=%2248%22 r=%223.4%22 fill=%22%23E9CF86%22 opacity=%22.9%22/%3E%3C/svg%3E") no-repeat center / contain;
+    pointer-events:none;
+    z-index:0;
+  }
+  .cara::before{ top:0; left:0; }
+  .cara::after{ bottom:0; right:0; transform:rotate(180deg); }
+  .cara > section, .cara > footer{ position:relative; z-index:1; }
+
   /* contenido dentro de cada página */
   .cara > section{
     min-height:100%;
     display:flex;
     flex-direction:column;
     justify-content:center;
-    padding:70px 0 130px;
+    padding:calc(62px + env(safe-area-inset-top)) 0 calc(92px + env(safe-area-inset-bottom));
   }
   .cara > section.hero{ padding:70px 30px; min-height:100%; align-items:center; }
-  .cara > section.confirmacion{ padding-bottom:30px; }
-  .cara footer{ padding:10px 24px 130px; }
+  .cara > section.confirmacion{ min-height:0; flex:1; padding-bottom:10px; }
+  .cara:has(.confirmacion){ display:flex; flex-direction:column; }
+  .cara footer{ padding:0 24px calc(90px + env(safe-area-inset-bottom)); font-size:.95rem; }
 
   /* En pantallas grandes el libro se ve como una hoja centrada */
   @media (min-width:760px){
@@ -765,6 +969,7 @@
     font-size:1.05rem;
     color:var(--marino-suave);
     min-width:42px;
+    white-space:nowrap;
     text-align:center;
   }
 
@@ -782,13 +987,16 @@
   .album{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:16px 14px;
+    grid-template-rows:1.25fr 1fr 1fr;
+    gap:12px 12px;
     margin-top:4px;
+    height:min(60svh, 520px);
   }
   .polaroid{
     background:var(--blanco);
-    padding:8px 8px 10px;
+    padding:6px;
     border-radius:3px;
+    min-height:0;
     box-shadow:0 10px 24px rgba(62,74,56,.14);
     cursor:zoom-in;
     transition:transform .3s ease;
@@ -803,13 +1011,12 @@
   .polaroid img{
     display:block;
     width:100%;
-    aspect-ratio:3 / 4;
+    height:100%;
     object-fit:cover;
     border-radius:2px;
     background:var(--fondo-suave);
   }
   .polaroid.grande{ grid-column:1 / span 2; }
-  .polaroid.grande img{ aspect-ratio:4 / 3; }
 
   .visor{
     position:fixed;
@@ -867,8 +1074,6 @@
   <article class="pagina actual">
     <div class="cara">
       <section class="hero">
-        <svg class="floral tl" viewBox="0 0 200 200" aria-hidden="true"><use href="#ornamento-floral"/></svg>
-        <svg class="floral br" viewBox="0 0 200 200" aria-hidden="true"><use href="#ornamento-floral"/></svg>
 
         <div class="hero-marco reveal">
           <p class="hero-anuncio">Nos casamos</p>
@@ -978,16 +1183,14 @@
           <h2 class="titulo-seccion">Ceremonia &amp; Recepción</h2>
           <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="3"/></svg><span class="linea"></span></div>
 
-          <div class="tarjeta">
-            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
-            <h3>Jueves 17 de diciembre, 2026</h3>
-            <p>La celebración inicia a las <strong>4:00 p.m.</strong></p>
+          <div class="tarjeta calendario-tarjeta">
+            <p class="cal-mes" id="calMes">Diciembre 2026</p>
+            <div class="calendario" id="calendario" aria-label="Calendario de diciembre 2026, domingo 20 marcado"></div>
+            <p class="cal-fecha">Domingo 20 de diciembre · <strong>2:00 p.m.</strong> a <strong>6:00 p.m.</strong></p>
           </div>
 
-          <div class="tarjeta">
-            <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
-            <h3 id="salonNombre">[Nombre del salón]</h3>
-            <p class="direccion" id="salonDireccion">Quevedo, Los Ríos, Ecuador</p>
+          <div class="tarjeta ubicacion-tarjeta">
+            <h3>Ubicación</h3>
             <div class="centrado">
               <a class="boton" id="botonMaps" href="#" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
@@ -1001,7 +1204,64 @@
     <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
   </article>
 
-  <!-- ============ PÁGINA 6 · DRESS CODE ============ -->
+  <!-- ============ PÁGINA 6 · ITINERARIO ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="itinerario-seccion">
+        <div class="contenedor reveal">
+          <p class="eyebrow">Así será nuestro día</p>
+          <h2 class="titulo-seccion">Itinerario</h2>
+          <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><span class="linea"></span></div>
+
+          <ol class="itinerario">
+            <li>
+              <span class="hora">2:00 p.m.</span>
+              <span class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg></span>
+              <div><h3>Ceremonia</h3><p>El “sí, acepto”. Te pedimos llegar unos minutos antes.</p></div>
+            </li>
+            <li>
+              <span class="hora">2:45 p.m.</span>
+              <span class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l1.5-3h5L16 7"/></svg></span>
+              <div><h3>Fotos y cóctel</h3><p>Saludos, fotos con los novios y un brindis de bienvenida.</p></div>
+            </li>
+            <li>
+              <span class="hora">3:30 p.m.</span>
+              <span class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></span>
+              <div><h3>Entrada de los novios</h3><p>Recibimos a los recién casados en la recepción.</p></div>
+            </li>
+            <li>
+              <span class="hora">3:45 p.m.</span>
+              <span class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 3h8l-1 7a3 3 0 01-6 0L8 3zM12 13v8M9 21h6"/></svg></span>
+              <div><h3>Primer baile y brindis</h3><p>Unas palabras y un brindis por el amor.</p></div>
+            </li>
+            <li>
+              <span class="hora">4:15 p.m.</span>
+              <span class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 3v8M5 3v4a2 2 0 004 0V3M7 11v10M17 3c-2 0-3 3-3 6s1 3 3 3v9"/></svg></span>
+              <div><h3>Banquete</h3><p>Compartimos la mesa con quienes más queremos.</p></div>
+            </li>
+            <li>
+              <span class="hora">5:00 p.m.</span>
+              <span class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 21h16M5 21v-6h14v6M7 15v-4h10v4M12 11V7M12 7c-1-1-1-2.5 0-3.5 1 1 1 2.5 0 3.5z"/></svg></span>
+              <div><h3>Pastel y fiesta</h3><p>Partimos el pastel y ¡a la pista de baile!</p></div>
+            </li>
+            <li>
+              <span class="hora">5:45 p.m.</span>
+              <span class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="4"/><path d="M12 12v9M9 18l3 3 3-3"/></svg></span>
+              <div><h3>Lanzamiento del ramo</h3><p>¿Quién será la próxima?</p></div>
+            </li>
+            <li>
+              <span class="hora">6:00 p.m.</span>
+              <span class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v2M5.6 5.6l1.4 1.4M3 12h2M19 12h2M17 7l1.4-1.4M7 12a5 5 0 0110 0M3 16h18M6 20h12"/></svg></span>
+              <div><h3>Despedida</h3><p>Gracias por acompañarnos en este día tan especial.</p></div>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </div>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
+
+  <!-- ============ PÁGINA 7 · DRESS CODE ============ -->
   <article class="pagina">
     <div class="cara">
       <section class="dresscode">
@@ -1031,7 +1291,41 @@
     <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
   </article>
 
-  <!-- ============ PÁGINA 7 · PASE RESERVADO ============ -->
+  <!-- ============ PÁGINA 8 · SECCIÓN DE REGALOS ============ -->
+  <article class="pagina">
+    <div class="cara">
+      <section class="regalos">
+        <div class="contenedor reveal">
+          <p class="eyebrow">Sección de regalos</p>
+          <h2 class="titulo-seccion">Mesa de Regalos</h2>
+          <div class="divisor"><span class="linea"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="3" y="9" width="18" height="12" rx="1"/><path d="M3 13h18M12 9v12M12 9c-2-4-6-4-6-1.5S10 9 12 9zM12 9c2-4 6-4 6-1.5S14 9 12 9z"/></svg><span class="linea"></span></div>
+
+          <p class="regalos-intro">Tu presencia es nuestro mejor regalo. Si además deseas obsequiarnos algo, puedes hacerlo mediante transferencia bancaria.</p>
+
+          <div class="tarjeta datos-banco">
+            <p class="banco-titulo" id="bancoNombre">Banco Pichincha</p>
+            <div class="dato">
+              <div><span class="dato-etiqueta">Titular</span><span class="dato-valor" id="bancoTitular"></span></div>
+              <button class="copiar" type="button" data-copiar="bancoTitular">Copiar</button>
+            </div>
+            <div class="dato">
+              <div><span class="dato-etiqueta" id="bancoTipo">Número de cuenta</span><span class="dato-valor" id="bancoCuenta"></span></div>
+              <button class="copiar" type="button" data-copiar="bancoCuenta">Copiar</button>
+            </div>
+            <div class="dato">
+              <div><span class="dato-etiqueta">Cédula</span><span class="dato-valor" id="bancoCedula"></span></div>
+              <button class="copiar" type="button" data-copiar="bancoCedula">Copiar</button>
+            </div>
+          </div>
+
+          <p class="regalos-gracias">¡Gracias por tu cariño!</p>
+        </div>
+      </section>
+    </div>
+    <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
+  </article>
+
+  <!-- ============ PÁGINA 9 · PASE RESERVADO ============ -->
   <article class="pagina">
     <div class="cara">
       <section class="pase">
@@ -1048,7 +1342,7 @@
     <div class="tono"></div><div class="sombra"></div><div class="dorso"></div>
   </article>
 
-  <!-- ============ PÁGINA 8 · CONFIRMA TU ASISTENCIA ============ -->
+  <!-- ============ PÁGINA 10 · CONFIRMA TU ASISTENCIA ============ -->
   <article class="pagina">
     <div class="cara">
       <section class="confirmacion">
@@ -1105,7 +1399,7 @@
     <button class="nav-btn anterior" id="btnAnterior" type="button" aria-label="Página anterior">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
     </button>
-    <span class="nav-contador" id="contador" aria-live="polite">1 / 8</span>
+    <span class="nav-contador" id="contador" aria-live="polite">1 / 10</span>
     <button class="nav-btn siguiente pulso" id="btnSiguiente" type="button">
       Siguiente
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
@@ -1368,6 +1662,29 @@
 
     mostrarContenido(paginas[0]);
     actualizarNav();
+
+    // Encajar cada página en la pantalla (sin scroll ni contenido cortado)
+    function encajarPaginas(){
+      paginas.forEach(pag => {
+        const cara = pag.querySelector(".cara");
+        const sec = cara.querySelector("section");
+        const cont = sec && sec.querySelector(".contenedor, .hero-marco");
+        if (!cont) return;
+        cont.style.zoom = 1;
+        const estilo = getComputedStyle(sec);
+        const pie = cara.querySelector("footer");
+        const disponible = cara.clientHeight
+          - parseFloat(estilo.paddingTop) - parseFloat(estilo.paddingBottom)
+          - (pie ? pie.offsetHeight : 0);
+        const alto = cont.scrollHeight;
+        if (alto > disponible) cont.style.zoom = Math.max(0.6, disponible / alto).toFixed(3);
+      });
+    }
+    encajarPaginas();
+    window.addEventListener("resize", encajarPaginas);
+    window.addEventListener("load", encajarPaginas);
+    if (document.fonts) document.fonts.ready.then(encajarPaginas);
+    window.encajarPaginas = encajarPaginas;
   })();
 
   /* ---------- Visor de fotos ---------- */
@@ -1387,17 +1704,66 @@
      CONFIGURACIÓN — edita estos valores antes de publicar
      ========================================================== */
   const CONFIG = {
-    fechaBodaISO: "2026-12-17T16:00:00-05:00",
-    salon: "[Nombre del salón]",              // <-- EDITA: nombre del salón/lugar
-    direccion: "Quevedo, Los Ríos, Ecuador",  // <-- EDITA: dirección exacta para el mapa
+    fechaBodaISO: "2026-12-20T14:00:00-05:00",   // la boda empieza a las 2:00 p.m.
+    mapsUrl: "https://www.google.com/maps/place/2%C2%B010'05.0%22S+79%C2%B056'15.4%22W/@-2.1680522,-79.940197,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-2.1680522!4d-79.9376221?hl=es",
+    banco: {
+      nombre: "Banco Pichincha",
+      titular: "Gabriel Pinela",
+      tipoCuenta: "Número de cuenta",      // <-- EDITA si quieres: "Cuenta de ahorros" o "Cuenta corriente"
+      cuenta: "[NÚMERO DE CUENTA]",         // <-- EDITA: número de cuenta
+      cedula: "[CÉDULA]"                    // <-- EDITA: número de cédula
+    },
     appsScriptUrl: "https://script.google.com/macros/s/AKfycby1qbpn3uX5kXHY83Iqz8zt8JL5t-WApJWqZWeY1gznpJeaSngBYkmid7W-tY22t85E7g/exec"
   };
 
-  document.getElementById("salonNombre").textContent = CONFIG.salon;
-  document.getElementById("salonDireccion").textContent = CONFIG.direccion;
-  document.getElementById("botonMaps").href =
-    "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent(CONFIG.salon + " " + CONFIG.direccion);
+  document.getElementById("botonMaps").href = CONFIG.mapsUrl;
+
+  /* ---------- Calendario del mes de la boda ---------- */
+  (function(){
+    const f = new Date(CONFIG.fechaBodaISO);
+    const anio = f.getFullYear(), mes = f.getMonth(), diaBoda = f.getDate();
+    const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+    document.getElementById("calMes").textContent = meses[mes] + " " + anio;
+    const cal = document.getElementById("calendario");
+    ["Lu","Ma","Mi","Ju","Vi","Sá","Do"].forEach(d => {
+      const s = document.createElement("span"); s.className = "dia-semana"; s.textContent = d; cal.appendChild(s);
+    });
+    const primero = (new Date(anio, mes, 1).getDay() + 6) % 7;   // lunes = 0
+    const total = new Date(anio, mes + 1, 0).getDate();
+    for (let i = 0; i < primero; i++) cal.appendChild(document.createElement("span"));
+    for (let d = 1; d <= total; d++){
+      const s = document.createElement("span");
+      s.className = "dia" + (d === diaBoda ? " boda" : "");
+      s.textContent = d;
+      cal.appendChild(s);
+    }
+  })();
+
+  /* ---------- Datos bancarios (sección de regalos) ---------- */
+  document.getElementById("bancoNombre").textContent = CONFIG.banco.nombre;
+  document.getElementById("bancoTitular").textContent = CONFIG.banco.titular;
+  document.getElementById("bancoTipo").textContent = CONFIG.banco.tipoCuenta;
+  document.getElementById("bancoCuenta").textContent = CONFIG.banco.cuenta;
+  document.getElementById("bancoCedula").textContent = CONFIG.banco.cedula;
+
+  document.querySelectorAll(".copiar").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const texto = document.getElementById(btn.dataset.copiar).textContent.trim();
+      const listo = () => {
+        btn.textContent = "¡Copiado!";
+        btn.classList.add("ok");
+        setTimeout(() => { btn.textContent = "Copiar"; btn.classList.remove("ok"); }, 1800);
+      };
+      if (navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(texto).then(listo).catch(() => {});
+      } else {
+        const t = document.createElement("textarea");
+        t.value = texto; document.body.appendChild(t); t.select();
+        try { document.execCommand("copy"); listo(); } catch(e){}
+        t.remove();
+      }
+    });
+  });
 
   /* ---------- Cuenta regresiva ---------- */
   const fechaBoda = new Date(CONFIG.fechaBodaISO).getTime();
