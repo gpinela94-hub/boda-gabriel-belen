@@ -468,6 +468,13 @@
   .cal-fecha{ margin-top:10px; }
   .ubicacion-tarjeta{ padding:16px 20px 18px; }
   .ubicacion-tarjeta .centrado{ margin-top:10px; }
+  .ubicacion-tarjeta h3{ margin-bottom:2px; }
+  .nota-entrada{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:1.02rem !important;
+    color:var(--oliva) !important;
+  }
   @media (max-height:760px){
     .calendario .dia{ height:25px; font-size:.82rem; }
     .calendario .dia.boda::before{ width:27px; height:27px; }
@@ -1206,6 +1213,7 @@
 
           <div class="tarjeta ubicacion-tarjeta">
             <h3>Ubicación</h3>
+            <p class="nota-entrada">Entrada por la calle de la iglesia</p>
             <div class="centrado">
               <a class="boton" id="botonMaps" href="#" target="_blank" rel="noopener">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg>
@@ -1287,7 +1295,7 @@
 
           <div class="dresscode-iconos">
             <div class="grupo">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M8 3L4 6v3h2v12h12V9h2V6l-4-3-2 2h-4L8 3z"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" stroke-linecap="round"><path d="M8.5 3L4 5.5 3 21h18L20 5.5 15.5 3"/><path d="M8.5 3L12 14l3.5-11"/><path d="M8.5 3L7 8.5l2.6 1M15.5 3L17 8.5l-2.6 1"/><path d="M10 3l2 1.6L14 3"/><path d="M11.3 4.3h1.4l-.3 1h-.8zM11.6 5.3L11 11l1 1.6 1-1.6-.6-5.7z" fill="currentColor" stroke-width=".8"/><path d="M6 9.5L5.6 21M18 9.5l.4 11.5"/><circle cx="12" cy="16.6" r=".6" fill="currentColor"/><circle cx="12" cy="19.2" r=".6" fill="currentColor"/></svg>
               <span>Caballeros</span>
             </div>
             <div class="grupo">
